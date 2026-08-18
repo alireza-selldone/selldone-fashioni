@@ -94,6 +94,11 @@
               </div>
 
               <div class="fgroup">
+                <h4 id="fg-size">Size</h4>
+                <div id="sizefilters" role="group" aria-labelledby="fg-size"></div>
+              </div>
+
+              <div class="fgroup">
                 <h4 id="fg-price">Price</h4>
                 <div class="price-range-values" aria-hidden="true"><span id="poutlo">&nbsp;</span><span id="pouthi">&nbsp;</span></div>
                 <p class="sr" id="pout" role="status">Price range</p>
@@ -142,8 +147,11 @@
                         "jackets-layers": "Jackets & Layers", "shorts": "Shorts",
                         "sunglasses": "Sunglasses", "tops-t-shirts": "Tops & T-Shirts"
                       };
-                      const slug = new URLSearchParams(location.search).get("cat");
-                      const name = labels[slug];
+                      const params = new URLSearchParams(location.search);
+                      const slug = params.get("cat");
+                      const audience = params.get("audience");
+                      const audienceLabels = {girls:"Girls",boys:"Boys",baby:"Baby",women:"Women",men:"Men"};
+                      const name = labels[slug] || audienceLabels[audience];
                       if (!name) return;
                       document.getElementById("listtitle").textContent = name;
                       document.getElementById("listintro").textContent = `Loading ${name.toLowerCase()}…`;

@@ -20,19 +20,18 @@ let CAT = null;
    is identical everywhere and future chrome changes have one source. */
 const SHARED_HEADER_HTML = `<header class="hdr fashioni-header">
   <div class="topbar"><span class="topbar__long" data-announce-long>Fresh fashion · Easy discovery · Secure checkout</span><span class="topbar__short" data-announce-short>Fresh fashion · Secure checkout</span></div>
-  <div class="wrap hdr__in">
-    <button class="burger mobonly" type="button" data-open="nav" aria-label="Open menu"><span></span></button>
+  <div class="wrap hdr__in fashioni-primary">
+    <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search for products, brands and categories</span></button>
     <a class="logo fashioni-logo" href="index.html" aria-label="Fashioni home">FASHIO<span>NI</span></a>
-    <nav class="nav header-nav" aria-label="Main"><a href="shop.html"><b>Shop All</b></a><a href="shop.html?cat=activewear">Activewear</a><a href="shop.html?cat=dresses-one-pieces">Dresses</a><a href="shop.html?cat=tops-t-shirts">Tops</a><a href="shop.html?cat=footwear">Footwear</a><a href="shop.html?cat=bags-accessories">Accessories</a><a href="shop.html?cat=sunglasses">Sunglasses</a><a href="/blog">Style Notes</a></nav>
-    <div class="hdr__tools">
-      <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search</span></button>
-      <div class="hdr__act">
-        <button class="iconbtn" type="button" data-open="account" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></button>
-        <button class="iconbtn" type="button" data-open="cart" aria-label="Open bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cartdot" data-cart-count hidden>0</span></button>
-      </div>
-    </div>
-    <div class="mega"><div class="mega__grid" id="megagrid"></div></div>
+    <div class="hdr__tools"><div class="hdr__act">
+      <button class="iconbtn" type="button" data-open="account" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></button>
+      <button class="iconbtn" type="button" data-open="cart" aria-label="Open bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cartdot" data-cart-count hidden>0</span></button>
+      <a class="header-checkout" href="checkout.html">Checkout</a>
+    </div></div>
   </div>
+  <div class="fashioni-navrow"><nav class="nav audience-nav" aria-label="Main">
+    <a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="shop.html">Shop by product</a><a href="shop.html?view=brands">Brands</a>
+  </nav><div class="mega"><div class="mega__grid" id="megagrid"></div></div></div>
 </header>`;
 
 const SHARED_FOOTER_HTML = `<footer class="ft ink"><div class="wrap"><div class="ft__cols"><div class="ft__col ft__brand"><p class="logo fashioni-logo">FASHIO<span>NI</span></p><p class="lede" data-brand-tagline>Style for every move.</p><p class="demonote"></p><div class="ft__socials" aria-label="Social media"><span role="img" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.5" cy="6.5" r="1" class="fill"/></svg></span><span role="img" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5l12 14M18 5 6 19"/></svg></span><span role="img" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3Z" class="fill"/></svg></span><span role="img" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="3" height="10" class="fill"/><circle cx="5.5" cy="5.5" r="1.7" class="fill"/><path d="M11 19v-6c0-2 1.2-3.2 3.1-3.2 2 0 3 1.3 3 3.4V19M11 10v9"/></svg></span></div></div><div class="ft__col"><h4>Categories</h4><ul data-collections></ul></div><div class="ft__col"><h4>Help</h4><ul><li><a href="/about-us">About Fashioni</a></li><li><a href="/blog">Style notes</a></li><li><a href="/terms#delivery">Shipping</a></li><li><a href="/terms#returns">Returns</a></li><li><a href="/contact-us">Contact us</a></li></ul></div><div class="ft__col"><h4>Policies</h4><ul><li><a href="/terms">Terms</a></li><li><a href="/privacy">Privacy</a></li><li><a href="/terms#warranty">Warranty</a></li></ul></div></div><div class="ft__bar"><span>© 2026 Fashioni · Style for every move.</span><span class="ft__payments" aria-label="Accepted payment methods"><span class="ft__payment ft__payment--visa" role="img" aria-label="Visa">VISA</span><span class="ft__payment ft__payment--mastercard" role="img" aria-label="Mastercard"><i></i><i></i></span><span class="ft__payment ft__payment--amex" role="img" aria-label="American Express">AMEX</span></span></div></div></footer>`;
@@ -62,11 +61,13 @@ function initSharedChrome() {
 export function cardHTML(p) {
   return `<a class="pcard" href="product.html?id=${p.id}">
     <div class="pcard__art">
+      <span class="pcard__badge">${p.raw?.created_at ? "New in" : "Fashioni"}</span>
       <img src="${p.image}" alt="${esc(p.name)}" loading="lazy" width="500" height="500">
     </div>
-    <p class="eyebrow" style="margin-bottom:6px">${esc(p.catName)}</p>
+    <p class="pcard__meta">${esc(p.brand || p.catName)}</p>
     <span class="pcard__name">${esc(p.name)}</span>
     <p class="price mb0">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</p>
+    ${p.colors?.length ? `<span class="pcard__swatches" aria-label="${p.colors.length} colour options">${[...new Set(p.colors)].slice(0,6).map((color) => `<i style="${swatchStyle(color)}"></i>`).join("")}</span>` : ""}
   </a>`;
 }
 
@@ -347,25 +348,40 @@ export function initAcc(root = document) {
 function fillNav() {
   const mega = document.getElementById("megagrid");
   if (mega) {
-    mega.innerHTML = CAT.cats.map((c) => `
-      <a class="mega__item" href="shop.html?cat=${c.slug}">
-        <img src="${c.image}" alt="${esc(c.name)} — ${esc(c.heroName)}" loading="lazy" width="200" height="200">
-        <b>${esc(c.name)}</b>
-        <span class="cap">${c.count} products</span>
+    const audienceLinks = (CAT.audiences || []).map((a) =>
+      `<a href="shop.html?audience=${a.slug}">${esc(a.title)} <small>${a.count}</small></a>`).join("");
+    const categoryLinks = CAT.cats.map((c) =>
+      `<a href="shop.html?cat=${c.slug}">${esc(c.name)} <small>${c.count}</small></a>`).join("");
+    const brandLinks = CAT.brands.slice(0, 8).map((b) =>
+      `<a href="shop.html?brand=${encodeURIComponent(b.name)}">${esc(b.name)} <small>${b.count}</small></a>`).join("");
+    const visualLinks = (CAT.audiences || []).slice(0, 3).map((a) => `
+      <a class="mega__visual" href="shop.html?audience=${a.slug}">
+        <img src="${a.image}" alt="${esc(a.title)} fashion" loading="lazy" width="220" height="220">
+        <b>${esc(a.title)}</b>
       </a>`).join("");
+    mega.innerHTML = `
+      <div class="mega__column"><b>Shop by department</b>${audienceLinks}</div>
+      <div class="mega__column"><b>Shop by product</b>${categoryLinks}</div>
+      <div class="mega__column"><b>Popular brands</b>${brandLinks}</div>
+      <div class="mega__visuals">${visualLinks}</div>`;
   }
 
   document.querySelectorAll("[data-collections]").forEach((ul) => {
-    ul.innerHTML = CAT.cats.slice(0, 6).map((c) =>
+    ul.innerHTML = (CAT.audiences || []).map((a) =>
+      `<li><a href="shop.html?audience=${a.slug}">${esc(a.title)}</a></li>`).join("") +
+      CAT.cats.slice(0, 3).map((c) =>
       `<li><a href="shop.html?cat=${c.slug}">${esc(c.name)}</a></li>`).join("") +
       `<li><a href="shop.html"><b>View all categories</b></a></li>`;
   });
 
   document.querySelectorAll("[data-drawer-nav]").forEach((nav) => {
     nav.innerHTML =
-      `<a href="shop.html">View all categories<small>${CAT.cats.length} categories · ${CAT.products.length} products</small></a>` +
+      (CAT.audiences || []).map((a) =>
+        `<a href="shop.html?audience=${a.slug}">${esc(a.title)}<small>${a.count} products</small></a>`).join("") +
+      `<a href="shop.html">Shop by product<small>${CAT.cats.length} categories · ${CAT.products.length} products</small></a>` +
       CAT.cats.map((c) =>
         `<a href="shop.html?cat=${c.slug}">${esc(c.name)}<small>${c.count} products · from ${money(c.from)}</small></a>`).join("") +
+      `<a href="shop.html?view=brands">Brands<small>${CAT.brands.length} brands</small></a>` +
       `<a href="/contact-us">Customer support</a>`;
   });
 }
@@ -686,6 +702,10 @@ function initDeepLink() {
 
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", async () => {
+  /* Register both local brand faces even on routes whose above-the-fold state
+     is a skeleton. This prevents a late heading swap when live data arrives. */
+  document.fonts?.load('600 16px "Cormorant Garamond"').catch(() => {});
+  document.fonts?.load('400 16px "Archivo"').catch(() => {});
   initSharedChrome();
   // First, so the warning is up before the catalogue resolves. Awaited: the
   // banner shifts the page, and shifting it after the reader has started is

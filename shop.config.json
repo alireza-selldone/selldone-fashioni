@@ -59,6 +59,13 @@
       "blurb": "Blouses, tees, and easy tops designed for versatile daily styling."
     }
   ],
+  "audiences": [
+    { "id": 108656, "slug": "girls", "title": "Girls", "image": "assets/categories/girls.png" },
+    { "id": 108657, "slug": "boys", "title": "Boys", "image": "assets/categories/boys.png" },
+    { "id": 108658, "slug": "baby", "title": "Baby", "image": "assets/categories/baby.png" },
+    { "id": 108654, "slug": "women", "title": "Women", "image": "assets/categories/women.png" },
+    { "id": 108655, "slug": "men", "title": "Men", "image": "assets/categories/men.png" }
+  ],
   "categoryHeroes": {
     "activewear": 710265,
     "bags-accessories": 710194,

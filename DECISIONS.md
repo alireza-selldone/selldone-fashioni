@@ -11,9 +11,9 @@
 
 ## Catalog architecture
 
-On 18 August 2026 the original 22 flat folders were consolidated into eight customer-facing collections. All 165 products were moved before 14 empty source folders were deleted. The final structure is Activewear, Bags & Accessories, Dresses & One-Pieces, Footwear, Jackets & Layers, Shorts, Sunglasses, and Tops & T-Shirts.
+On 18 August 2026 the original 22 flat folders were consolidated into eight customer-facing product-type collections. The store now has 195 products. The final type structure is Activewear, Bags & Accessories, Dresses & One-Pieces, Footwear, Jackets & Layers, Shorts, Sunglasses, and Tops & T-Shirts.
 
-The structure is deliberately product-type-led. It is easier to scan than duplicated audience folders, while the storefront search and brand/availability filters still support narrower discovery.
+Discovery is deliberately dual-axis. Every applicable product keeps its product-type category and also receives one or more audience shortcuts: Women, Men, Girls, Boys, or Baby. Baby further divides into Baby Girls and Baby Boys. This avoids duplicate products while supporting both “what is it?” and “who is it for?” navigation.
 
 ## Fashion references reviewed
 
@@ -23,7 +23,7 @@ Reviewed on 18 August 2026:
 2. Uniqlo — accessible product hierarchy, audience-aware navigation, clear category language, strong utility details, and compact retail density.
 3. SSENSE — editorial rhythm, generous whitespace, minimal chrome, and a clear separation between commerce and stories.
 
-Fashioni uses Uniqlo as the closest primary reference because the live catalog has accessible prices, broad ages, and practical everyday categories. SSENSE informs editorial spacing and article presentation; Zara informs campaign scale. No third-party source code, logo, product image, proprietary icon, or copy is reused.
+Fashioni initially used Uniqlo as the closest reference because the live catalog has accessible prices, broad ages, and practical everyday categories. After a full desktop/tablet/mobile review on 18 August 2026, Next became the primary information-design reference: a two-tier audience header, broad mega menu, horizontal listing filters, dense responsive product grids, image-led homepage blocks, and a compact sticky product purchase column. SSENSE still informs editorial spacing and Zara informs campaign scale. No third-party source code, logo, product image, proprietary icon, or copy is reused.
 
 ## Visual system
 
@@ -36,7 +36,7 @@ Fashioni uses Uniqlo as the closest primary reference because the live catalog h
 
 ## Product options and media
 
-Selldone contains 411 variant rows. Many apparel rows repeat one color across several size values, stored in `volume`. The interface groups colors separately from sizes and maps variant ids deterministically to gallery images. Real Selldone variant-image links take precedence; otherwise unique color groups receive stable gallery images, while size rows of the same color share the same image.
+Apparel and footwear use complete color-by-size matrices. Newly created apparel has three colors and five sizes per color; new kids' footwear has three colors and eight sizes per color. Existing size-applicable products were expanded to the relevant adult, baby, kids, or footwear scale. The interface groups colors separately from sizes and maps variant ids deterministically to gallery images. Every newly added color has at least three positive-stock sizes; in practice it has five or eight.
 
 ## Accuracy boundaries
 

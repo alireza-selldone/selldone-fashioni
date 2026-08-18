@@ -16,15 +16,39 @@ const PAGE = 24;
 
 function initShop(cat) {
   const grid = document.getElementById("pgrid");
+  const filters = document.getElementById("filters");
   const more = document.querySelector("[data-more]");
   const moreBtn = document.querySelector("[data-more-btn]");
   const moreCap = document.querySelector("[data-more-cap]");
   let shown = PAGE;
   if (!grid) return;
 
+  /* Next-style catalogue rhythm: title first, then a full-width filter bar. */
+  document.querySelector(".listhd")?.after(filters);
+  filters.querySelectorAll(".fgroup h4").forEach((heading) => {
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "filter-trigger";
+    trigger.innerHTML = `<span>${heading.textContent}</span><span aria-hidden="true">⌄</span>`;
+    trigger.setAttribute("aria-expanded", "false");
+    heading.replaceWith(trigger);
+    trigger.addEventListener("click", () => {
+      const group = trigger.closest(".fgroup");
+      filters.querySelectorAll(".fgroup.is-open").forEach((open) => {
+        if (open !== group) {
+          open.classList.remove("is-open");
+          open.querySelector(".filter-trigger")?.setAttribute("aria-expanded", "false");
+        }
+      });
+      const expanded = group.classList.toggle("is-open");
+      trigger.setAttribute("aria-expanded", String(expanded));
+    });
+  });
+
   const params = new URLSearchParams(location.search);
   const presetCat = params.get("cat");
   const presetBrand = params.get("brand");
+  const presetAudience = params.get("audience");
 
   /* ---- Filter 1: collection ---- */
   const catBox = document.getElementById("catfilters");
@@ -32,6 +56,16 @@ function initShop(cat) {
     <label class="check">
       <input type="checkbox" value="${c.slug}"${presetCat === c.slug ? " checked" : ""}>
       ${esc(c.name)}<span class="cap">${c.count}</span>
+    </label>`).join("");
+
+  /* Sizes are collected from live variants, not a static fashion taxonomy. */
+  const sizeBox = document.getElementById("sizefilters");
+  const sizes = [...new Set(cat.products.flatMap((p) => p.sizes || []))]
+    .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }));
+  sizeBox.innerHTML = sizes.map((size) => `
+    <label class="check">
+      <input type="checkbox" value="${esc(size)}">${esc(size)}
+      <span class="cap">${cat.products.filter((p) => p.sizes?.includes(size)).length}</span>
     </label>`).join("");
 
   /* ---- Filter 4: brand ---- */
@@ -95,12 +129,15 @@ function initShop(cat) {
 
   function render({ syncPriceFields = true } = {}) {
     const picked = [...catBox.querySelectorAll("input:checked")].map((i) => i.value);
+    const pickedSizes = [...sizeBox.querySelectorAll("input:checked")].map((i) => i.value);
     const brands = [...brandBox.querySelectorAll("input:checked")].map((i) => i.value);
     const { a, b } = paintPrice(syncPriceFields);
     const atFloor = Number(lo.value) === 0, atCeil = Number(hi.value) === 100;
 
     const list = cat.products.filter((p) =>
       (!picked.length || picked.includes(p.cat)) &&
+      (!presetAudience || p.audiences?.includes(presetAudience)) &&
+      (!pickedSizes.length || pickedSizes.some((size) => p.sizes?.includes(size))) &&
       (!brands.length || brands.includes(p.brand)) &&
       (atFloor || p.price >= a) && (atCeil || p.price <= b) &&
       (!stock.checked || p.qty > 0));
@@ -111,13 +148,16 @@ function initShop(cat) {
       String(y.raw.created_at || "").localeCompare(String(x.raw.created_at || "")) || y.id - x.id);
 
     const one = picked.length === 1 ? catOf(cat, picked[0]) : null;
-    title.textContent = one ? one.name : "All products";
-    if (crumbTitle) crumbTitle.textContent = one ? one.name : "Products";
+    const audience = cat.audiences?.find((item) => item.slug === presetAudience);
+    const pageName = one?.name || audience?.title || "All products";
+    title.textContent = pageName;
+    if (crumbTitle) crumbTitle.textContent = pageName === "All products" ? "Products" : pageName;
     if (intro) intro.textContent = one ? one.blurb
+      : audience ? `${list.length} styles selected for ${audience.title.toLowerCase()}.`
       : `${cat.products.length} products across ${cat.cats.length} categories.`;
     count.textContent = `${list.length} ${list.length === 1 ? "product" : "products"}`;
     if (shown > list.length) shown = Math.max(PAGE, Math.ceil(list.length / PAGE) * PAGE);
-    document.title = `${one ? one.name : "All products"} — Fashioni`;
+    document.title = `${pageName} — Fashioni`;
 
     if (list.length) {
       const page = list.slice(0, shown);
@@ -196,9 +236,11 @@ function initShop(cat) {
     grid.querySelectorAll(".pcard")[before]?.focus();
   });
   catBox.addEventListener("change", reset);
+  sizeBox.addEventListener("change", reset);
   brandBox.addEventListener("change", reset);
   document.getElementById("clear")?.addEventListener("click", () => {
     catBox.querySelectorAll("input").forEach((i) => (i.checked = false));
+    sizeBox.querySelectorAll("input").forEach((i) => (i.checked = false));
     brandBox.querySelectorAll("input").forEach((i) => (i.checked = false));
     lo.value = 0; hi.value = 100; stock.checked = false; sort.value = "new";
     render();

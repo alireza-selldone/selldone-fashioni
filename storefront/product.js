@@ -99,7 +99,7 @@ async function initPDP(cat) {
      color value on at least one variant. */
   const hasColorOptions = variants.some((variant) => Boolean(variant.color));
   if (hasColorOptions) variants.forEach((variant) => {
-    const key = variant.color || `variant-${variant.id}`;
+    const key = variant.color ? String(variant.color).toUpperCase() : `variant-${variant.id}`;
     if (!colorGroups.has(key)) colorGroups.set(key, []);
     colorGroups.get(key).push(variant);
   });
@@ -108,7 +108,7 @@ async function initPDP(cat) {
     .sort((a, b) => a.minId - b.minId);
   const requestedVariantId = Number(new URLSearchParams(location.search).get("variant") || 0);
   let selectedVariant = variants.find((v) => Number(v.id) === requestedVariantId) || variants[0] || null;
-  let selectedColorKey = selectedVariant?.color || (selectedVariant ? `variant-${selectedVariant.id}` : "");
+  let selectedColorKey = selectedVariant?.color ? String(selectedVariant.color).toUpperCase() : (selectedVariant ? `variant-${selectedVariant.id}` : "");
   let selectedSize = sizeField ? selectedVariant?.[sizeField] || sizeValues[0] || "" : "";
   const showSwatches = hasColorOptions && colors.length > 0;
   /* A variant's own price/stock when it sets one, the product's otherwise. */
@@ -268,7 +268,7 @@ async function initPDP(cat) {
   const selectVariant = (variant) => {
       if (!variant) return;
       selectedVariant = variant;
-      selectedColorKey = variant.color || `variant-${variant.id}`;
+      selectedColorKey = variant.color ? String(variant.color).toUpperCase() : `variant-${variant.id}`;
       if (sizeField && variant[sizeField]) selectedSize = variant[sizeField];
       root.querySelectorAll(".sw").forEach((sw) => {
         const on = sw.dataset.colorKey === selectedColorKey;
