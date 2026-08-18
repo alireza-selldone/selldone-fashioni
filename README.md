@@ -2,6 +2,9 @@
 
 Fashioni is a responsive fashion storefront backed by Selldone and deployed on Cloudflare Workers.
 
+- Live storefront: [fashioni.selldone.shop](https://fashioni.selldone.shop/)
+- Workers preview: [selldone-fashioni.ee-shirdel.workers.dev](https://selldone-fashioni.ee-shirdel.workers.dev/)
+
 ## Store
 
 - Selldone shop: `fashioni` (shop `15552`)
@@ -37,6 +40,10 @@ npm run deploy
 
 The Worker name is `selldone-fashioni`. The production hostname is `fashioni.selldone.shop`.
 
+`wrangler.toml` performs a normal static-assets deployment. `wrangler.proxy.toml` reproduces the
+commit-pinned, Cloudflare-cached proxy deployment used when a local Wrangler OAuth session is not
+available.
+
 ## Design system
 
 The visual direction combines Uniqlo-like category clarity, SSENSE-inspired editorial spacing, and Zara-scale campaign imagery. Five persistent themes are available: Atelier, Plum, Forest, Sand, and Rose. Product and category grids use four columns on desktop and two on mobile.
@@ -47,4 +54,8 @@ Prices, stock, variants, categories, product imagery, and articles load from the
 
 ## Screenshots
 
-Fresh desktop, tablet, and mobile screenshots are generated in `docs/screenshots/` after the production deployment is verified.
+- [Homepage — desktop](docs/screenshots/fashioni-home-1440.png)
+- [Shop — desktop](docs/screenshots/fashioni-shop-1440.png)
+- [Product — desktop](docs/screenshots/fashioni-product-1440.png)
+- [Style Notes — desktop](docs/screenshots/fashioni-blog-1440.png)
+- [Homepage — mobile](docs/screenshots/fashioni-home-390.png)
