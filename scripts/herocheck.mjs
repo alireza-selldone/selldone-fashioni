@@ -1,4 +1,4 @@
-/* Verify the responsive Digini campaign hero against its current design rules. */
+/* Verify the responsive Fashioni campaign hero against its current design rules. */
 import { chromium } from "playwright";
 
 const BASE = (process.argv[2] || "http://localhost:8788").replace(/\/+$/, "");
@@ -37,8 +37,8 @@ for (const [width, height] of [[1440, 900], [1024, 900], [820, 1000], [390, 844]
 
   console.log(`\n  ${width}px`);
   state.overflow === 0 ? pass("no horizontal overflow") : fail(`${state.overflow}px horizontal overflow`);
-  state.fit === "cover" ? pass("campaign image uses object-fit: cover") : fail(`unexpected object-fit: ${state.fit}`);
-  state.image.naturalWidth > state.image.naturalHeight ? pass("landscape campaign artwork loaded") : fail("campaign artwork is not landscape");
+  state.fit === "contain" ? pass("campaign artwork is fully contained without cropping") : fail(`unexpected object-fit: ${state.fit}`);
+  state.image.naturalWidth > 1000 && state.image.naturalHeight > 1000 ? pass("high-resolution campaign artwork loaded") : fail("campaign artwork resolution is too small");
   const copyVisible = state.heading.top >= state.hero.top && state.heading.bottom <= state.hero.bottom && state.heading.text.length > 10;
   copyVisible ? pass("campaign heading is fully visible") : fail("campaign heading is clipped or empty");
   if (width <= 820) {

@@ -108,10 +108,10 @@ export function audit() {
   /* 4. palette */
   const bodyBg = getComputedStyle(document.body).backgroundColor;
   const bodyFg = getComputedStyle(document.body).color;
-  if (bodyBg !== 'rgb(244, 247, 251)') add('body-background-not-digini-surface', bodyBg);
-  if (bodyFg !== 'rgb(16, 24, 40)') add('body-ink-not-digini-graphite', bodyFg);
+  if (bodyBg !== 'rgb(244, 247, 251)') add('body-background-not-fashioni-surface', bodyBg);
+  if (bodyFg !== 'rgb(16, 24, 40)') add('body-ink-not-fashioni-graphite', bodyFg);
 
-  /* 5. Card elevation is intentional in the Digini retail system. */
+  /* 5. Card elevation is intentional in the Fashioni retail system. */
 
   /* 6. fonts */
   /* document.fonts.check() returns true when NOTHING matches the family —
@@ -122,7 +122,7 @@ export function audit() {
     [...document.fonts].some((f) => f.family === family && f.status === 'loaded');
   const fonts = {
     archivo: loaded('Archivo'),
-    azeret: loaded('Azeret Mono'),
+    cormorant: loaded('Cormorant Garamond'),
   };
   Object.entries(fonts).forEach(([k, v]) => { if (!v) add('font-not-loaded', k); });
 

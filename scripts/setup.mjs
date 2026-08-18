@@ -4,7 +4,7 @@
  * It must NOT ask the user which shop: they already chose one when they
  * connected the MCP connector, and asking again is a step that need not exist.
  *
- *   node scripts/setup.mjs --shop-id 8460 --handle Watchino --name Watchino
+ *   node scripts/setup.mjs --shop-id 15552 --handle fashioni --name Fashioni
  *
  * What it does, in order:
  *   1. reads the shop's live categories and products from XAPI

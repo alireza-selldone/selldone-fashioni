@@ -1,113 +1,37 @@
-<div style="border:1px solid #E0A800;background:#FFF8E1;border-radius:4px;padding:14px 16px;margin:0 0 28px;font-family:system-ui,sans-serif;line-height:1.6;">
-  <strong style="color:#8A6100;font-size:15px;">⚠️ Demonstration content — not a real policy</strong><br>
-  <span style="color:#5C4300;font-size:14px;">
-    This page is placeholder text in a <strong>Selldone demo store</strong>, written to show how the
-    Pages feature works. Nothing here is a binding statement, a legal document, or a description of a
-    real business. <strong>Replace this content before going live.</strong>
-  </span>
-</div>
-
 # Terms and Conditions
 
 Last updated: {{LAST_UPDATED}}
 
-These terms govern your use of {{SHOP_DOMAIN}} and any purchase you make from {{SHOP_NAME}}. By placing an order you accept them. Please read them before you buy.
+These terms describe how the {{SHOP_NAME}} storefront works. Verified merchant identity and contact details have not yet been supplied and must be added by the merchant before these terms are treated as a complete legal notice.
 
-## 1. About us
+## Products and variants
 
-{{SHOP_NAME}}
-{{SHOP_ADDRESS}}
-{{SHOP_EMAIL}} · {{SHOP_PHONE}}
-{{COMPANY_REGISTRATION}}
+Product information, availability, price, color, and size come from the connected Selldone catalogue. Photographs can display differently across screens. Select the exact variant and review the product page before checkout.
 
-## 2. Your account
+## Orders and payment
 
-You may browse without an account, but placing an order requires one. You are responsible for keeping your login details secure and for activity that happens under your account. Tell us promptly if you believe someone else has access to it.
+The secure Selldone checkout shows the final basket, supported delivery choices, applicable taxes, currency, and enabled payment gateways before an order is confirmed. A product placed in the browser bag is not reserved. Stock and totals are checked again during checkout.
 
-You must be at least 18, or the age of majority where you live, to place an order.
+<h2 id="delivery">Delivery</h2>
 
-We may suspend or close an account that is being used fraudulently, to abuse our returns policy, or in a way that harms other customers or our staff.
+Available destinations, methods, prices, and estimates are shown in secure checkout. This site does not publish a delivery promise that has not been configured by the merchant. Carrier estimates are not guarantees unless checkout explicitly states otherwise.
 
-## 3. Products and descriptions
+<h2 id="returns">Returns and cancellation</h2>
 
-We describe products as accurately as we can, including dimensions, materials and specifications. Photographs are representative; colours can differ between screens and small variations are normal in handmade or natural materials.
+No universal return window has been supplied for this shop. The return conditions displayed for the order in Selldone, together with mandatory consumer law in the customer’s jurisdiction, apply. Customers should use their Selldone order record to request help and should not send an item to an unverified address.
 
-If a product turns out to be materially different from its description, that is a fault and clause 8 applies.
+<h2 id="warranty">Faulty items</h2>
 
-## 4. Orders
+Nothing on this site limits mandatory rights for goods that are faulty, not as described, or otherwise protected by applicable consumer law. Any manufacturer warranty applies only when it is stated for the exact product.
 
-Your order is an offer to buy. A contract is formed when we send you an order confirmation, not when you complete checkout.
+## Acceptable use
 
-We may decline an order if the item is out of stock, if the price or description contained an obvious error, if we cannot ship to your address, or if we suspect fraud. If we decline after taking payment, we refund in full.
+Do not misuse the site, interfere with its security, scrape it in a harmful way, or place orders without intending to pay. Site text, original imagery, and layout may not be republished commercially without permission.
 
-## 5. Prices and payment
+## Privacy
 
-Prices are shown in {{CURRENCY}} and include applicable taxes unless stated otherwise at checkout. Shipping is calculated before you confirm.
+Personal information used for customer login, basket, checkout, payment, and order fulfilment is processed through Selldone and the configured service providers. See the Privacy page for a plain-language overview.
 
-If the destination country charges import duties, those are payable by you on delivery. We cannot calculate or refund them.
+## Merchant action required
 
-Payment is taken at the time of order through our payment provider. We never see or store your full card details.
-
-Where a price is obviously wrong — an evident pricing error rather than a discount — we will contact you before shipping and you may cancel for a full refund.
-
-<h2 id="delivery">6. Delivery</h2>
-
-We ship to the destinations listed at checkout. Delivery estimates are estimates, not guarantees; carriers occasionally run late for reasons outside our control.
-
-Risk passes to you on delivery. If a parcel arrives damaged, tell us within {{DAMAGE_WINDOW}} days with photographs and we will resolve it.
-
-If a parcel is lost in transit, we will trace it with the carrier and either replace or refund it.
-
-<h2 id="returns">7. Returns and cancellation</h2>
-
-You may return most items within {{RETURN_DAYS}} days of delivery for a refund, provided they are unused, in original condition, and with any seals and tags intact.
-
-To start a return, contact us at {{SHOP_EMAIL}} with your order number. We will confirm the return address. Please do not send anything back before we have replied.
-
-Refunds are issued to the original payment method within {{REFUND_DAYS}} days of receiving the return.
-
-**Not returnable:** items made or personalised to your specification, perishable goods, and sealed goods unsuitable for return on hygiene grounds once opened. This does not affect your rights where an item is faulty.
-
-Return shipping is at your cost unless the item is faulty or was sent in error, in which case we cover it.
-
-<h2 id="warranty">8. Faulty items and warranty</h2>
-
-If an item is faulty, not as described, or unfit for its purpose, you are entitled to a repair, replacement or refund under the consumer law that applies to you. Nothing in these terms limits those rights.
-
-Where a manufacturer's warranty applies, its length and terms are stated on the product page.
-
-Fair wear and tear, accidental damage, and damage caused by misuse or unauthorised repair are not covered.
-
-## 9. Intellectual property
-
-The content of this site — text, photographs, layout and logos — belongs to {{SHOP_NAME}} or is used with permission. You may not copy or republish it commercially without our written consent.
-
-Product names and trademarks belong to their respective owners.
-
-## 10. Acceptable use
-
-Do not use this site to break the law, to interfere with its operation or security, to scrape it systematically, or to place orders you do not intend to pay for.
-
-## 11. Our liability
-
-We are responsible for loss that is a foreseeable result of us breaking these terms or failing to use reasonable care.
-
-We are not responsible for loss that was not foreseeable, for business losses, or for delays caused by events outside our reasonable control.
-
-Nothing here excludes liability for death or personal injury caused by our negligence, for fraud, or for anything else that cannot lawfully be excluded.
-
-## 12. Privacy
-
-How we handle your personal information is set out in our Privacy Policy at {{SHOP_DOMAIN}}/privacy.
-
-## 13. Changes to these terms
-
-We may update these terms. The version that applies to your order is the one published when you placed it.
-
-## 14. Governing law
-
-These terms are governed by the laws of {{COUNTRY}}, and disputes fall to the courts of {{COUNTRY}}. If you are a consumer resident elsewhere, you keep the protection of the mandatory consumer law of your own country.
-
-## 15. Contact
-
-Questions about these terms: {{SHOP_EMAIL}}
+The merchant must add verified business identity, contact details, applicable governing law, return rules, and any business-specific policies. Until then, the information presented during the live Selldone checkout and the customer’s statutory rights take precedence over general site copy.

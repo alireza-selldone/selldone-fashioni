@@ -84,7 +84,7 @@ if (!stubs) pass(`0 stub links across all ${ALL.length} page states`);
    document after the browser has already jumped. That is the visitor's
    experience, so it is the one worth testing. */
 console.log("\n4. Terms anchors scroll to their section (cold cache)");
-for (const [id, expect] of [["delivery", "6. Delivery"], ["returns", "7. Returns"], ["warranty", "8. Faulty items"]]) {
+for (const [id, expect] of [["delivery", "Delivery"], ["returns", "Returns and cancellation"], ["warranty", "Faulty items"]]) {
   const cold = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await cold.newPage();
   await page.goto(`${B}/terms#${id}`, { waitUntil: "domcontentloaded" });

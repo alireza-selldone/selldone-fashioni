@@ -1,48 +1,17 @@
-<div style="border:1px solid #E0A800;background:#FFF8E1;border-radius:4px;padding:14px 16px;margin:0 0 28px;font-family:system-ui,sans-serif;line-height:1.6;">
-  <strong style="color:#8A6100;font-size:15px;">⚠️ Demonstration content — not a real policy</strong><br>
-  <span style="color:#5C4300;font-size:14px;">
-    This page is placeholder text in a <strong>Selldone demo store</strong>, written to show how the
-    Pages feature works. Nothing here is a binding statement, a legal document, or a description of a
-    real business. <strong>Replace this content before going live.</strong>
-  </span>
-</div>
-
 # About {{SHOP_NAME}}
 
-## Who we are
+## Style for every move
 
-{{SHOP_NAME}} is an online electronics store built around a simple idea: make useful technology easier to understand, compare, and choose.
+{{SHOP_NAME}} is an online fashion storefront built to make a varied catalogue easier to explore. Instead of a long list of overlapping folders, the shop is organised into eight clear collections: Activewear, Bags & Accessories, Dresses & One-Pieces, Footwear, Jackets & Layers, Shorts, Sunglasses, and Tops & T-Shirts.
 
-Every item in our catalogue is selected for a clear everyday purpose. We organize products around the way people work, create, travel, listen, and stay connected, so the important differences are easier to see.
+## How the catalogue works
 
-## How we choose what we sell
+Products are displayed from the connected Selldone catalogue. Availability, prices, colors, and sizes can change, so the product page and secure checkout are the current source for each option. When a product offers more than one color, selecting a swatch changes the relevant product image and keeps the selected variant in the page link.
 
-Three questions decide whether something makes it into the catalogue.
+Our style notes focus on practical choices: building a smaller wardrobe, coordinating color, checking fit, and following the care label attached to the exact garment.
 
-**Is it fit for purpose?** We look at practical specifications, compatibility, construction, and the jobs a product is designed to handle.
+## Merchant details
 
-**Is it honestly priced?** We would rather carry one good option at a fair price than four variations designed to make a fifth look reasonable.
+The merchant has not yet supplied a verified public postal address, email address, telephone number, opening hours, founding year, or company registration number. Those details are therefore not invented on this site. They should be added here by the merchant before they are used for customer communication.
 
-**Is the choice clear?** Categories, specifications, and buying guides should help customers compare products without decoding unnecessary jargon.
-
-## What you can expect from us
-
-**Straight answers.** If a product is not right for what you described, we will say so, even when that costs us the sale.
-
-**Real availability.** What the site says is in stock is in stock. We do not take orders for things we cannot ship.
-
-**A person, not a queue.** Write to us and a person reads it. Most questions are answered within one working day.
-
-**Careful packing.** Things arrive the way they left. If something is damaged in transit, that is on us to fix, not on you to prove.
-
-## After the sale
-
-The relationship does not end when the parcel does. If something goes wrong within the returns window, we make it right. If it goes wrong later, we will still help you find a solution — a repair, a part, or honest advice about whether it is worth fixing.
-
-## Where we are
-
-{{SHOP_ADDRESS}}
-
-We are reachable at {{SHOP_EMAIL}} and, during business hours, at {{SHOP_PHONE}}.
-
-If you would rather see something in person before buying, get in touch and we will arrange it where we can.
+Orders and customer accounts are handled securely through Selldone. Delivery, tax, return, and payment details shown during checkout are the current terms for that order.

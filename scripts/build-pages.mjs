@@ -31,13 +31,6 @@ const TOKENS = {
   COUNTRY: CFG.brand?.country || "your applicable jurisdiction",
   CURRENCY: CFG.brand?.currency || "USD",
   LAST_UPDATED: CFG.brand?.lastUpdated || "17 August 2026",
-  RETURN_DAYS: "30",
-  REFUND_DAYS: "14",
-  DAMAGE_WINDOW: "7",
-  RECORD_YEARS: "10",
-  SUPPORT_RETENTION: "3",
-  LOG_RETENTION: "90",
-  RESPONSE_DAYS: "30",
   OPENING_HOURS: CFG.brand?.openingHours || "",
 };
 
@@ -51,16 +44,11 @@ for (const [k, v] of Object.entries(TOKENS)) if (!v) delete TOKENS[k];
 const UNFILLED = new Set(["SHOP_EMAIL", "SHOP_PHONE", "SHOP_ADDRESS", "COMPANY_REGISTRATION"]);
 
 const PAGES = {
-  "about-us": ["About Digini", "How Digini selects useful technology and helps customers choose with confidence."],
+  "about-us": ["About Fashioni", "How Fashioni organises its fashion catalogue and helps customers choose with confidence."],
   terms: ["Client care", "Terms and conditions covering orders, prices, delivery, returns and warranty."],
   privacy: ["Client care", "What personal information this shop collects, why, and how to have it removed."],
   "contact-us": ["Client care", "How to reach us, what to include, and how long a reply takes."],
 };
-
-const BANNER = `<div class="demobanner">
-            <b>⚠️ Demonstration content — not a real policy</b>
-            <span>This page is placeholder text in a <strong>Selldone demo store</strong>, written to show how the Pages feature works. Nothing here is a binding statement, a legal document, or a description of a real business. <strong>Replace this content before going live.</strong></span>
-          </div>`;
 
 const escape = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -84,12 +72,6 @@ function render(md) {
   while (i < lines.length) {
     const line = lines[i];
 
-    if (line.startsWith('<div style="border:1px solid #E0A800')) {
-      while (!lines[i].startsWith("</div>")) i++;
-      body.push(BANNER);
-      i++;
-      continue;
-    }
     // Raw <h2 id="…">: Markdown has no syntax for an id, and the footer links
     // straight to these sections.
     if (line.startsWith("<h2 id=")) { body.push("          " + fill(line)); i++; continue; }
