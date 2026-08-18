@@ -94,7 +94,11 @@ async function initPDP(cat) {
   const sizeField = optionFields.find((field) => variants.some((v) => v[field])) || null;
   const sizeValues = sizeField ? [...new Set(variants.map((v) => v[sizeField]).filter(Boolean))] : [];
   const colorGroups = new Map();
-  variants.forEach((variant) => {
+  /* Size-only products must not be presented as though every size were a
+     separate color. Keep color groups empty unless Selldone records an actual
+     color value on at least one variant. */
+  const hasColorOptions = variants.some((variant) => Boolean(variant.color));
+  if (hasColorOptions) variants.forEach((variant) => {
     const key = variant.color || `variant-${variant.id}`;
     if (!colorGroups.has(key)) colorGroups.set(key, []);
     colorGroups.get(key).push(variant);
@@ -106,7 +110,7 @@ async function initPDP(cat) {
   let selectedVariant = variants.find((v) => Number(v.id) === requestedVariantId) || variants[0] || null;
   let selectedColorKey = selectedVariant?.color || (selectedVariant ? `variant-${selectedVariant.id}` : "");
   let selectedSize = sizeField ? selectedVariant?.[sizeField] || sizeValues[0] || "" : "";
-  const showSwatches = colors.length > 0;
+  const showSwatches = hasColorOptions && colors.length > 0;
   /* A variant's own price/stock when it sets one, the product's otherwise. */
   const priceOf = (v) => (v && v.price > 0 ? v.price - (v.discount || 0) : p.price);
   const stockOf = (v) => (v && Number.isFinite(v.qty) ? v.qty : p.qty);
@@ -152,10 +156,7 @@ async function initPDP(cat) {
       </div>
       <p class="swname mb0">Color <span class="swhex" data-sw-hex>${esc(swatchLabel(selectedVariant?.color))}</span>${selectedVariant?.sku ? ` <span class="swsku" data-sw-sku>${esc(selectedVariant.sku)}</span>` : `<span class="swsku" data-sw-sku hidden></span>`}</p>
       <p class="swpos" data-sw-pos>${colors.length} color${colors.length === 1 ? "" : "s"} available</p>
-      ` : `
-      <p class="eyebrow mb0" style="margin-bottom:8px">Options</p>
-      <p class="cap" style="margin-bottom:4px">No separate color option is recorded for this product.</p>
-      `}
+      ` : ""}
 
       ${sizeValues.length ? `
       <div class="size-options">
