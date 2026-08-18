@@ -1,0 +1,152 @@
+{
+  "$comment": "Every shop-specific value in one file. Written by `npm run setup`; nothing here should be hand-edited on a real shop. Ships with the demonstration shop's values and isTemplate:true, so a fresh clone runs and looks finished while saying out loud that the products are not yours.",
+  "shop": {
+    "id": 15549,
+    "handle": "digini-hZGabLru",
+    "name": "Digini",
+    "domain": "digini-hZGabLru.myselldone.com"
+  },
+  "isTemplate": false,
+  "oauth": {
+    "clientId": "01a01211-8378-73fc-bb66-e9089330e752",
+    "appName": "Digini Storefront"
+  },
+  "brand": {
+    "foundedYear": null,
+    "cities": null,
+    "tagline": "Smart technology, clearly chosen.",
+    "announcement": "Curated electronics · Secure checkout · Helpful buying guides"
+  },
+  "categories": [
+    {
+      "id": 108596,
+      "slug": "tv",
+      "blurb": "Smart TVs and displays for streaming, entertainment, and everyday viewing."
+    },
+    {
+      "id": 108598,
+      "slug": "digital-camera",
+      "blurb": "Digital cameras for travel, creativity, and memorable everyday shots."
+    },
+    {
+      "id": 108599,
+      "slug": "power-bank",
+      "blurb": "Compact backup power for phones, tablets, and devices on the move."
+    },
+    {
+      "id": 108600,
+      "slug": "ear-buds",
+      "blurb": "Wireless earbuds for calls, music, commuting, and workouts."
+    },
+    {
+      "id": 108601,
+      "slug": "flash-drive",
+      "blurb": "Portable flash storage for fast transfers and simple file sharing."
+    },
+    {
+      "id": 108602,
+      "slug": "hard-drive",
+      "blurb": "Hard drives for dependable backups, archives, and expanded storage."
+    },
+    {
+      "id": 108608,
+      "slug": "rv",
+      "blurb": "Portable power stations for travel, road trips, and emergency backup."
+    },
+    {
+      "id": 108594,
+      "slug": "laptop",
+      "blurb": "Laptops for study, work, entertainment, and creative projects."
+    },
+    {
+      "id": 108604,
+      "slug": "printers",
+      "blurb": "Printers for productive home offices, schoolwork, and small teams."
+    },
+    {
+      "id": 108605,
+      "slug": "keyboard",
+      "blurb": "Keyboards designed for comfortable work, gaming, and daily use."
+    },
+    {
+      "id": 108606,
+      "slug": "mice",
+      "blurb": "Precise mice for work, gaming, travel, and ergonomic comfort."
+    },
+    {
+      "id": 108607,
+      "slug": "action-cameras",
+      "blurb": "Rugged action cameras for immersive footage and outdoor adventures."
+    },
+    {
+      "id": 108603,
+      "slug": "monitors",
+      "blurb": "Monitors for sharper workspaces, creative tasks, and smooth gaming."
+    },
+    {
+      "id": 108595,
+      "slug": "microphones",
+      "blurb": "Microphones for clear calls, streaming, podcasts, and recording."
+    },
+    {
+      "id": 108597,
+      "slug": "headphones",
+      "blurb": "Headphones for focused listening, travel, calls, and entertainment."
+    }
+  ],
+  "categoryHeroes": {
+    "tv": 710036,
+    "digital-camera": 710077,
+    "power-bank": 709993,
+    "ear-buds": 709994,
+    "flash-drive": 709995,
+    "hard-drive": 709996,
+    "rv": 710094,
+    "laptop": 710057,
+    "printers": 710049,
+    "keyboard": 710064,
+    "mice": 710070,
+    "action-cameras": 710086,
+    "monitors": 710047,
+    "microphones": 709981,
+    "headphones": 709988
+  },
+  "hero": {
+    "mode": "slides",
+    "image": "",
+    "natural": {
+      "w": 1,
+      "h": 1
+    },
+    "linkProductId": 710103,
+    "hotspots": [],
+    "slides": [
+      {
+        "productId": 710103,
+        "kicker": "",
+        "title": "",
+        "lede": ""
+      },
+      {
+        "productId": 710041,
+        "kicker": "",
+        "title": "",
+        "lede": ""
+      },
+      {
+        "productId": 710058,
+        "kicker": "",
+        "title": "",
+        "lede": ""
+      }
+    ]
+  },
+  "spotlight": {
+    "mode": "highest-price"
+  },
+  "contact": {
+    "email": null,
+    "phone": null,
+    "address": null
+  }
+}
