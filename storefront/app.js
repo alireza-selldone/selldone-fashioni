@@ -114,7 +114,7 @@ export function cardHTML(p) {
       </div>
       <p class="pcard__meta">${esc(p.brand || p.catName)}</p>
       <span class="pcard__name">${esc(p.name)}</span>
-      <p class="price mb0">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</p>
+      <p class="price mb0 pcard__price">${p.was ? `<s>${money(p.was)}</s>` : ""}<span class="price__now">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</span></p>
     </a>
     ${colors.length ? `<span class="pcard__swatches" role="radiogroup" aria-label="Choose a color for ${esc(p.name)}">${colors.map((option, index) => `<button class="pcard__swatch${index ? "" : " is-on"}" type="button" role="radio" aria-checked="${index ? "false" : "true"}" aria-label="${esc(swatchLabel(option.color))}" data-card-color="${esc(String(option.color))}" data-card-variant="${option.variantId}" data-card-image-src="${esc(option.image)}"><span aria-hidden="true" style="${swatchStyle(option.color)}"></span></button>`).join("")}</span>` : ""}
   </article>`;
