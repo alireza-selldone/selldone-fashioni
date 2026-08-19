@@ -137,13 +137,15 @@ function initDragScroller(scroller) {
     startX = event.clientX;
     startScroll = scroller.scrollLeft;
     dragged = false;
-    scroller.classList.add("is-dragging");
-    scroller.setPointerCapture(pointerId);
   });
   scroller.addEventListener("pointermove", (event) => {
     if (event.pointerId !== pointerId) return;
     const delta = event.clientX - startX;
-    if (Math.abs(delta) > 5) dragged = true;
+    if (!dragged && Math.abs(delta) > 5) {
+      dragged = true;
+      scroller.classList.add("is-dragging");
+      scroller.setPointerCapture(pointerId);
+    }
     if (dragged) scroller.scrollLeft = startScroll - delta;
   });
   const release = (event) => {
