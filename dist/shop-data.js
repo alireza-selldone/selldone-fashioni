@@ -32,6 +32,33 @@ const URL_PRODUCTS_ALL = (limit = 250) =>
   `${SHOP.xapi}/shops/@${SHOP.handle}/products/all?dir=*&limit=${limit}` +
   `&products_only=true&with_category=true&with_total=true`;
 
+const taggedProductIdsCache = new Map();
+
+/* Tags live in Selldone's product Survey data, but products/list intentionally
+   omits them. Query products/all with tags[] so homepage merchandising remains
+   driven by the merchant's live tags instead of a duplicated local id list. */
+export async function loadTaggedProductIds(tag, { limit = 250 } = {}) {
+  const normalized = String(tag || "").trim().toLowerCase();
+  if (!normalized) return [];
+  if (taggedProductIdsCache.has(normalized)) return taggedProductIdsCache.get(normalized);
+
+  const request = fetch(
+    `${SHOP.xapi}/shops/@${SHOP.handle}/products/all?dir=*&limit=${limit}` +
+      `&products_only=true&tags[]=${encodeURIComponent(normalized)}`,
+    { mode: "cors", headers: { Accept: "application/json" } },
+  ).then(async (response) => {
+    if (!response.ok) throw new Error(`tagged products ${normalized} ${response.status}`);
+    const payload = await response.json();
+    return [...new Set((payload.products || []).map((product) => Number(product.id)).filter(Number.isFinite))];
+  }).catch((error) => {
+    taggedProductIdsCache.delete(normalized);
+    throw error;
+  });
+
+  taggedProductIdsCache.set(normalized, request);
+  return request;
+}
+
 /* Audience capture — xapi.stream.audience.submit in the endpoint registry.
    POST /shops/{shop_id}/audience/{access_key}. Takes the numeric shop id, not
    the @handle the catalog builders use. The `newsletter` key is the default web

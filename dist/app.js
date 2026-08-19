@@ -126,7 +126,7 @@ function initCardSwatches() {
     if (!swatch) return;
     event.preventDefault();
     event.stopPropagation();
-    const card = swatch.closest(".pcard");
+    const card = swatch.closest("[data-card-product]");
     const cardImage = card?.querySelector("[data-card-image]");
     const productLink = card?.querySelector(".pcard__link");
     const mappedImage = swatch.dataset.cardImageSrc;

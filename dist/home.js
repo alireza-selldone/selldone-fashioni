@@ -1,7 +1,10 @@
 /* Fashioni homepage — live Selldone catalog with an editorial fashion shell. */
 
-import { loadCatalog, loadReviews } from "./shop-data.js";
-import { cardHTML, esc } from "./app.js";
+import {
+  loadCatalog, loadReviews, loadTaggedProductIds,
+  money, img, swatchStyle, swatchLabel,
+} from "./shop-data.js";
+import { cardHTML, esc, saleBadgeHTML } from "./app.js";
 
 const CATEGORY_ART = {
   108637: "activewear.png",
@@ -87,7 +90,43 @@ function initCampaigns() {
   paint(0);
 }
 
-function fillHome(catalog) {
+function taggedProducts(catalog, ids) {
+  const byId = new Map(catalog.products.map((product) => [Number(product.id), product]));
+  return ids.map((id) => byId.get(Number(id))).filter(Boolean);
+}
+
+function bestSellerCardHTML(product, index) {
+  const saleBadge = saleBadgeHTML(product, "best");
+  const colors = [...new Set(product.colors || [])].slice(0, 5).map((color) => {
+    const variants = (product.variants || []).filter((variant) =>
+      String(variant.color).toUpperCase() === String(color).toUpperCase());
+    const imageVariant = variants.find((variant) => variant.image) || variants[0];
+    return {
+      color,
+      variantId: imageVariant?.id || "",
+      image: imageVariant?.image ? img(imageVariant.image) : product.image,
+    };
+  });
+  const rank = String(index + 1).padStart(2, "0");
+  return `<article class="bscard${saleBadge ? " has-timed-sale" : ""}" data-card-product="${product.id}">
+    <a class="bscard__link pcard__link" href="product.html?id=${product.id}">
+      <span class="bscard__visual">
+        <span class="bscard__label">Best seller</span>
+        <span class="bscard__rank" aria-hidden="true">${rank}</span>
+        ${saleBadge}
+        <img src="${product.image}" alt="${esc(product.name)}" loading="lazy" width="600" height="600" data-card-image>
+      </span>
+      <span class="bscard__copy">
+        <span class="bscard__meta"><span>${esc(product.brand || product.catName || "Fashioni")}</span><span>No. ${rank}</span></span>
+        <strong>${esc(product.name)}</strong>
+        <span class="bscard__price">${product.was ? `<s>${money(product.was)}</s>` : ""}<b>${product.range?.varies ? `From ${money(product.range.from)}` : money(product.price)}</b></span>
+      </span>
+    </a>
+    ${colors.length ? `<span class="pcard__swatches bscard__swatches" role="radiogroup" aria-label="Choose a color for ${esc(product.name)}">${colors.map((option, colorIndex) => `<button class="pcard__swatch${colorIndex ? "" : " is-on"}" type="button" role="radio" aria-checked="${colorIndex ? "false" : "true"}" aria-label="${esc(swatchLabel(option.color))}" data-card-color="${esc(String(option.color))}" data-card-variant="${option.variantId}" data-card-image-src="${esc(option.image)}"><span aria-hidden="true" style="${swatchStyle(option.color)}"></span></button>`).join("")}</span>` : ""}
+  </article>`;
+}
+
+function fillHome(catalog, { trendingIds = [], bestSellerIds = [] } = {}) {
   const ids = new Map((catalog.cfg.categories || []).map((item) => [item.slug, item.id]));
   const grid = document.getElementById("catgrid");
   const categorySection = grid?.closest("section");
@@ -110,11 +149,23 @@ function fillHome(catalog) {
 
   const arrivals = document.getElementById("arrivals");
   if (arrivals) {
-    const newest = [...catalog.products]
-      .sort((a, b) => String(b.raw.created_at || "").localeCompare(String(a.raw.created_at || "")) || b.id - a.id)
-      .slice(0, 10);
-    arrivals.innerHTML = newest.map(cardHTML).join("");
+    const trending = taggedProducts(catalog, trendingIds);
+    arrivals.closest("section").hidden = trending.length === 0;
+    arrivals.innerHTML = trending.map(cardHTML).join("");
+    const countLink = arrivals.closest("section")?.querySelector("[data-trending-count]");
+    if (countLink) countLink.textContent = `All ${trending.length} trending products →`;
     initDragScroller(arrivals);
+  }
+
+  const bestSellerTrack = document.getElementById("best-sellers");
+  if (bestSellerTrack) {
+    const bestSellers = taggedProducts(catalog, bestSellerIds);
+    const section = bestSellerTrack.closest("section");
+    section.hidden = bestSellers.length === 0;
+    bestSellerTrack.innerHTML = bestSellers.map(bestSellerCardHTML).join("");
+    const count = section.querySelector("[data-best-seller-count]");
+    if (count) count.textContent = `${bestSellers.length} tagged favorites`;
+    initDragScroller(bestSellerTrack);
   }
 
   const categories = catalog.cats.length;
@@ -206,8 +257,12 @@ function renderHomeReviews(products) {
 
 initCampaigns();
 
-loadCatalog()
-  .then(fillHome)
+Promise.all([
+  loadCatalog(),
+  loadTaggedProductIds("trending"),
+  loadTaggedProductIds("best-seller"),
+])
+  .then(([catalog, trendingIds, bestSellerIds]) => fillHome(catalog, { trendingIds, bestSellerIds }))
   .catch((error) => {
     console.error(error);
     const message = document.querySelector("[data-catalog-error]");
