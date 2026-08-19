@@ -42,7 +42,7 @@ for (const [width, height] of [[1440, 900], [1024, 900], [820, 1000], [390, 844]
   const copyVisible = state.heading.top >= state.hero.top && state.heading.bottom <= state.hero.bottom && state.heading.text.length > 10;
   copyVisible ? pass("campaign heading is fully visible") : fail("campaign heading is clipped or empty");
   if (width <= 820) {
-    Math.round(state.image.bottom - state.image.top) === 280 ? pass("mobile image zone is 280px") : fail("mobile image zone changed");
+    Math.round(state.image.bottom - state.image.top) === 250 ? pass("mobile image zone is 250px") : fail("mobile image zone changed");
     state.copy.top >= state.image.bottom ? pass("mobile copy follows the image without overlap") : fail("mobile copy overlaps the image");
   } else {
     state.copy.width < state.hero.width * .55 ? pass("desktop copy leaves the product scene visible") : fail("desktop copy obscures too much artwork");

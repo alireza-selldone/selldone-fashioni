@@ -625,12 +625,37 @@ export async function loadProduct(id) {
   if (!p) throw new Error("no product in response");
   const gallery = [];
   const seen = new Set();
-  const push = (path, alt, w, h) => {
+  const push = (path, alt, w, h, variantId = null) => {
     const u = img(path);
-    if (u && !seen.has(u)) { seen.add(u); gallery.push({ src: u, alt: alt || "", w: w || 1000, h: h || 1000 }); }
+    if (u && !seen.has(u)) {
+      seen.add(u);
+      gallery.push({ src: u, alt: alt || "", w: w || 1000, h: h || 1000, variantId: Number(variantId) || null });
+    }
   };
   push(p.icon, `${p.title}, main view`);
-  (p.images || []).forEach((im, i) => push(im.path, im.alt || `${p.title}, view ${i + 2}`, im.width, im.height));
+  /* Re-uploads get a new CDN URL, so URL de-duplication alone leaves several
+     identical thumbnails for one variant. Keep the image Selldone currently
+     assigns to that variant (or the first upload when no assignment exists),
+     while preserving every unassigned editorial/lifestyle gallery image. */
+  const preferredVariantImage = new Map((p.product_variants || [])
+    .filter((variant) => variant?.id && variant?.image)
+    .map((variant) => [Number(variant.id), String(variant.image)]));
+  const groupedVariantImages = new Map();
+  const editorialImages = [];
+  (p.images || []).forEach((im) => {
+    const variantId = Number(im?.variant_id) || null;
+    if (!variantId) editorialImages.push(im);
+    else {
+      if (!groupedVariantImages.has(variantId)) groupedVariantImages.set(variantId, []);
+      groupedVariantImages.get(variantId).push(im);
+    }
+  });
+  groupedVariantImages.forEach((images, variantId) => {
+    const preferred = preferredVariantImage.get(variantId);
+    const chosen = images.find((image) => String(image.path) === preferred) || images[0];
+    if (chosen) push(chosen.path, chosen.alt || `${p.title}, color view`, chosen.width, chosen.height, variantId);
+  });
+  editorialImages.forEach((im, i) => push(im.path, im.alt || `${p.title}, view ${i + 2}`, im.width, im.height));
   return { raw: p, gallery };
 }
 

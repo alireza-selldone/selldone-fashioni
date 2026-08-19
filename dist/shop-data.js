@@ -462,6 +462,38 @@ export async function loadShop() {
 /* ---------- Catalog ---------- */
 let _cache = null;
 
+/* Selldone stores shortcut categories correctly, but its public product-list
+   payload currently omits them. Mirror the shop's published assignment here so
+   audience landing pages remain usable without 195 product-detail requests. */
+function mirroredAudienceIds(id) {
+  const n = Number(id);
+  const bothAdults = [108654, 108655], bothKids = [108656, 108657];
+  if (n >= 710122 && n <= 710151) return [108654];
+  if (n >= 710152 && n <= 710161) return [108655];
+  if (n >= 710162 && n <= 710164) return [108656];
+  if (n === 710165) return [108658, 108660];
+  if (n >= 710166 && n <= 710168) return [108656];
+  if (n === 710170) return [108655];
+  if ((n >= 710169 && n <= 710183) || (n >= 710185 && n <= 710187)) return bothAdults;
+  if (n === 710184 || (n >= 710188 && n <= 710189)) return bothKids;
+  if ((n >= 710190 && n <= 710192) || (n >= 710194 && n <= 710201)) return [108654];
+  if (n === 710193) return bothAdults;
+  if (n === 710202 || (n >= 710219 && n <= 710225)) return bothKids;
+  if (n >= 710203 && n <= 710210) return [108655];
+  if ((n >= 710211 && n <= 710218) || (n >= 710226 && n <= 710236)) return [108654];
+  if (n >= 710237 && n <= 710256) return bothAdults;
+  if (n >= 710257 && n <= 710266) return [108654];
+  if (n >= 710267 && n <= 710276) return bothAdults;
+  if ([710278, 710283, 710285].includes(n)) return bothAdults;
+  if (n >= 710277 && n <= 710286) return [108654];
+  if (n >= 710310 && n <= 710319) return [108655];
+  if (n >= 710320 && n <= 710324) return [108658, 108660];
+  if (n >= 710325 && n <= 710329) return [108658, 108659];
+  if (n >= 710330 && n <= 710334) return [108657];
+  if (n >= 710335 && n <= 710339) return [108656];
+  return [];
+}
+
 export async function loadCatalog() {
   if (_cache) return _cache;
 
@@ -484,9 +516,22 @@ export async function loadCatalog() {
 
   const cfg = await shopConfig();
   const index = categoryIndex(cfg, catMeta);
+  const audienceConfig = Array.isArray(cfg.audiences) ? cfg.audiences : [];
+  const audienceById = new Map(audienceConfig.map((audience) => [Number(audience.id), audience]));
 
   const products = (listJson.products || []).map((p) => {
     const slug = index.get(Number(p.category_id))?.slug || "";
+    const shortcutRows = Array.isArray(p.shortcuts) ? p.shortcuts : [];
+    const shortcutIdsFromApi = shortcutRows
+      .map((shortcut) => Number(shortcut?.id ?? shortcut?.category_id ?? shortcut))
+      .filter(Number.isFinite);
+    const shortcutIds = shortcutIdsFromApi.length ? shortcutIdsFromApi : mirroredAudienceIds(p.id);
+    const variants = variantsOf(p);
+    const sizes = [...new Set(variants.flatMap((variant) =>
+      [variant.type, variant.style, variant.volume, variant.weight, variant.pack]
+        .filter((value) => value !== null && value !== undefined && String(value).trim() !== "")
+        .map(String)
+    ))];
     return {
       id: p.id,
       name: p.title,
@@ -496,12 +541,17 @@ export async function loadCatalog() {
       catName: index.get(Number(p.category_id))?.title || "",
       price: finalPrice(p),
       was: wasPrice(p),
+      saleStartsAt: p.dis_start || "",
+      saleEndsAt: p.dis_end || "",
       qty: Number(p.quantity) || 0,
       rate: Number(p.rate) || 0,
       rateCount: Number(p.rate_count) || 0,
       spec: p.spec && typeof p.spec === "object" ? p.spec : null,
       colors: variantColors(p),
-      variants: variantsOf(p),
+      variants,
+      sizes,
+      shortcutIds,
+      audiences: shortcutIds.map((id) => audienceById.get(id)?.slug).filter(Boolean),
       range: priceRange(p),
       icon: p.icon || "",
       image: img(p.icon),
@@ -543,12 +593,18 @@ export async function loadCatalog() {
     .map((b) => ({ name: b, count: products.filter((p) => p.brand === b).length }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
+  const audiences = audienceConfig.map((audience) => ({
+    ...audience,
+    count: products.filter((product) => product.audiences.includes(audience.slug)).length,
+  }));
+
   _cache = {
     products,
     cats,
     catsDropped,
     cfg,
     brands,
+    audiences,
     lo: Math.min(...products.map((p) => p.price)),
     hi: Math.max(...products.map((p) => p.price)),
     onSale: products.filter((p) => p.was).length,
@@ -569,12 +625,37 @@ export async function loadProduct(id) {
   if (!p) throw new Error("no product in response");
   const gallery = [];
   const seen = new Set();
-  const push = (path, alt, w, h) => {
+  const push = (path, alt, w, h, variantId = null) => {
     const u = img(path);
-    if (u && !seen.has(u)) { seen.add(u); gallery.push({ src: u, alt: alt || "", w: w || 1000, h: h || 1000 }); }
+    if (u && !seen.has(u)) {
+      seen.add(u);
+      gallery.push({ src: u, alt: alt || "", w: w || 1000, h: h || 1000, variantId: Number(variantId) || null });
+    }
   };
   push(p.icon, `${p.title}, main view`);
-  (p.images || []).forEach((im, i) => push(im.path, im.alt || `${p.title}, view ${i + 2}`, im.width, im.height));
+  /* Re-uploads get a new CDN URL, so URL de-duplication alone leaves several
+     identical thumbnails for one variant. Keep the image Selldone currently
+     assigns to that variant (or the first upload when no assignment exists),
+     while preserving every unassigned editorial/lifestyle gallery image. */
+  const preferredVariantImage = new Map((p.product_variants || [])
+    .filter((variant) => variant?.id && variant?.image)
+    .map((variant) => [Number(variant.id), String(variant.image)]));
+  const groupedVariantImages = new Map();
+  const editorialImages = [];
+  (p.images || []).forEach((im) => {
+    const variantId = Number(im?.variant_id) || null;
+    if (!variantId) editorialImages.push(im);
+    else {
+      if (!groupedVariantImages.has(variantId)) groupedVariantImages.set(variantId, []);
+      groupedVariantImages.get(variantId).push(im);
+    }
+  });
+  groupedVariantImages.forEach((images, variantId) => {
+    const preferred = preferredVariantImage.get(variantId);
+    const chosen = images.find((image) => String(image.path) === preferred) || images[0];
+    if (chosen) push(chosen.path, chosen.alt || `${p.title}, color view`, chosen.width, chosen.height, variantId);
+  });
+  editorialImages.forEach((im, i) => push(im.path, im.alt || `${p.title}, view ${i + 2}`, im.width, im.height));
   return { raw: p, gallery };
 }
 

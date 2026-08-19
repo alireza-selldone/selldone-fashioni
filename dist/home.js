@@ -114,12 +114,53 @@ function fillHome(catalog) {
       .sort((a, b) => String(b.raw.created_at || "").localeCompare(String(a.raw.created_at || "")) || b.id - a.id)
       .slice(0, 10);
     arrivals.innerHTML = newest.map(cardHTML).join("");
+    initDragScroller(arrivals);
   }
 
   const categories = catalog.cats.length;
   document.querySelectorAll("[data-category-count]").forEach((el) => { el.textContent = categories; });
 
   renderHomeReviews(catalog.products);
+}
+
+function initDragScroller(scroller) {
+  if (!scroller || scroller.dataset.dragWired) return;
+  scroller.dataset.dragWired = "true";
+  let pointerId = null;
+  let startX = 0;
+  let startScroll = 0;
+  let dragged = false;
+
+  scroller.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startScroll = scroller.scrollLeft;
+    dragged = false;
+  });
+  scroller.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== pointerId) return;
+    const delta = event.clientX - startX;
+    if (!dragged && Math.abs(delta) > 5) {
+      dragged = true;
+      scroller.classList.add("is-dragging");
+      scroller.setPointerCapture(pointerId);
+    }
+    if (dragged) scroller.scrollLeft = startScroll - delta;
+  });
+  const release = (event) => {
+    if (event.pointerId !== pointerId) return;
+    pointerId = null;
+    scroller.classList.remove("is-dragging");
+  };
+  scroller.addEventListener("pointerup", release);
+  scroller.addEventListener("pointercancel", release);
+  scroller.addEventListener("click", (event) => {
+    if (!dragged) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragged = false;
+  }, true);
 }
 
 function renderHomeReviews(products) {

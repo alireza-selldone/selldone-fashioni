@@ -13,26 +13,63 @@ import { shopConfig, isUnconfigured } from "./shop-config.js";
 
 let CAT = null;
 
+function saleEndOf(p) {
+  const end = p?.saleEndsAt || p?.raw?.dis_end || p?.dis_end || "";
+  const timestamp = Date.parse(end);
+  return Number.isFinite(timestamp) && timestamp > Date.now() ? { end, timestamp } : null;
+}
+
+export function saleBadgeHTML(p, context = "card") {
+  const sale = saleEndOf(p);
+  const active = p?.was || (Number(p?.discount) > 0 && (!p?.dis_start || Date.now() >= Date.parse(p.dis_start)));
+  if (!active || !sale) return "";
+  return `<span class="sale-countdown sale-countdown--${context}" data-sale-end="${esc(sale.end)}" role="status" aria-label="Timed sale ends at ${esc(sale.end)}">
+    <b>Ends in</b><span data-sale-timer>--:--:--</span>
+  </span>`;
+}
+
+function startSaleCountdowns() {
+  const tick = () => {
+    const now = Date.now();
+    document.querySelectorAll("[data-sale-end]").forEach((badge) => {
+      const remaining = Math.max(0, Date.parse(badge.dataset.saleEnd) - now);
+      if (!remaining) {
+        badge.remove();
+        return;
+      }
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const pad = (value) => String(value).padStart(2, "0");
+      const timer = badge.querySelector("[data-sale-timer]");
+      if (timer) timer.textContent = `${days ? `${pad(days)}d ` : ""}${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    });
+  };
+  tick();
+  setInterval(tick, 1000);
+}
+
 /* ---------- Shared storefront chrome ----------
    Every public page uses one header and footer contract. Older standalone
    pages still carry equivalent static markup as a no-JS fallback; this
    replacement runs before any header behavior is wired, so the live interface
    is identical everywhere and future chrome changes have one source. */
-const SHARED_HEADER_HTML = `<header class="hdr fashioni-header">
+const SHARED_HEADER_HTML = `<header class="hdr fashioni-header" data-shared-chrome="v2">
   <div class="topbar"><span class="topbar__long" data-announce-long>Fresh fashion · Easy discovery · Secure checkout</span><span class="topbar__short" data-announce-short>Fresh fashion · Secure checkout</span></div>
-  <div class="wrap hdr__in">
-    <button class="burger mobonly" type="button" data-open="nav" aria-label="Open menu"><span></span></button>
+  <div class="wrap hdr__in fashioni-primary">
+    <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search for products, brands and categories</span></button>
     <a class="logo fashioni-logo" href="index.html" aria-label="Fashioni home">FASHIO<span>NI</span></a>
-    <nav class="nav header-nav" aria-label="Main"><a href="shop.html"><b>Shop All</b></a><a href="shop.html?cat=activewear">Activewear</a><a href="shop.html?cat=dresses-one-pieces">Dresses</a><a href="shop.html?cat=tops-t-shirts">Tops</a><a href="shop.html?cat=footwear">Footwear</a><a href="shop.html?cat=bags-accessories">Accessories</a><a href="shop.html?cat=sunglasses">Sunglasses</a><a href="/blog">Style Notes</a></nav>
-    <div class="hdr__tools">
-      <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search</span></button>
-      <div class="hdr__act">
-        <button class="iconbtn" type="button" data-open="account" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></button>
-        <button class="iconbtn" type="button" data-open="cart" aria-label="Open bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cartdot" data-cart-count hidden>0</span></button>
-      </div>
-    </div>
-    <div class="mega"><div class="mega__grid" id="megagrid"></div></div>
+    <div class="hdr__tools"><div class="hdr__act">
+      <button class="iconbtn" type="button" data-open="account" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></button>
+      <button class="iconbtn" type="button" data-open="cart" aria-label="Open bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cartdot" data-cart-count hidden>0</span></button>
+      <a class="header-checkout" href="checkout.html">Checkout</a>
+    </div></div>
   </div>
+  <div class="fashioni-navrow"><nav class="nav audience-nav" aria-label="Main">
+    <a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="shop.html">Shop by product</a><a href="shop.html?view=brands">Brands</a>
+  </nav><div class="mega"><div class="mega__grid" id="megagrid"></div></div></div>
 </header>`;
 
 const SHARED_FOOTER_HTML = `<footer class="ft ink"><div class="wrap"><div class="ft__cols"><div class="ft__col ft__brand"><p class="logo fashioni-logo">FASHIO<span>NI</span></p><p class="lede" data-brand-tagline>Style for every move.</p><p class="demonote"></p><div class="ft__socials" aria-label="Social media"><span role="img" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.5" cy="6.5" r="1" class="fill"/></svg></span><span role="img" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5l12 14M18 5 6 19"/></svg></span><span role="img" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10 9 5 3-5 3Z" class="fill"/></svg></span><span role="img" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="3" height="10" class="fill"/><circle cx="5.5" cy="5.5" r="1.7" class="fill"/><path d="M11 19v-6c0-2 1.2-3.2 3.1-3.2 2 0 3 1.3 3 3.4V19M11 10v9"/></svg></span></div></div><div class="ft__col"><h4>Categories</h4><ul data-collections></ul></div><div class="ft__col"><h4>Help</h4><ul><li><a href="/about-us">About Fashioni</a></li><li><a href="/blog">Style notes</a></li><li><a href="/terms#delivery">Shipping</a></li><li><a href="/terms#returns">Returns</a></li><li><a href="/contact-us">Contact us</a></li></ul></div><div class="ft__col"><h4>Policies</h4><ul><li><a href="/terms">Terms</a></li><li><a href="/privacy">Privacy</a></li><li><a href="/terms#warranty">Warranty</a></li></ul></div></div><div class="ft__bar"><span>© 2026 Fashioni · Style for every move.</span><span class="ft__payments" aria-label="Accepted payment methods"><span class="ft__payment ft__payment--visa" role="img" aria-label="Visa">VISA</span><span class="ft__payment ft__payment--mastercard" role="img" aria-label="Mastercard"><i></i><i></i></span><span class="ft__payment ft__payment--amex" role="img" aria-label="American Express">AMEX</span></span></div></div></footer>`;
@@ -48,7 +85,9 @@ function initSharedChrome() {
   document.querySelector(".page")?.classList.add("fashioni-page");
 
   const header = document.querySelector("header.hdr,header.cohdr");
-  if (header) header.outerHTML = SHARED_HEADER_HTML;
+  if (header && header.dataset.sharedChrome !== "v2") {
+    header.outerHTML = SHARED_HEADER_HTML;
+  }
 
   const footer = document.querySelector("footer.ft");
   if (footer) footer.outerHTML = SHARED_FOOTER_HTML;
@@ -60,14 +99,61 @@ function initSharedChrome() {
 
 /* ---------- Shared card ---------- */
 export function cardHTML(p) {
-  return `<a class="pcard" href="product.html?id=${p.id}">
-    <div class="pcard__art">
-      <img src="${p.image}" alt="${esc(p.name)}" loading="lazy" width="500" height="500">
-    </div>
-    <p class="eyebrow" style="margin-bottom:6px">${esc(p.catName)}</p>
-    <span class="pcard__name">${esc(p.name)}</span>
-    <p class="price mb0">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</p>
-  </a>`;
+  const saleBadge = saleBadgeHTML(p);
+  const colors = [...new Set(p.colors || [])].slice(0, 6).map((color) => {
+    const variants = (p.variants || []).filter((variant) => String(variant.color).toUpperCase() === String(color).toUpperCase());
+    const imageVariant = variants.find((variant) => variant.image) || variants[0];
+    return { color, variantId: imageVariant?.id || "", image: imageVariant?.image ? img(imageVariant.image) : p.image };
+  });
+  return `<article class="pcard${saleBadge ? " has-timed-sale" : ""}" data-card-product="${p.id}">
+    <a class="pcard__link" href="product.html?id=${p.id}">
+      <div class="pcard__art">
+        <span class="pcard__badge">${p.raw?.created_at ? "New in" : "Fashioni"}</span>
+        ${saleBadge}
+        <img src="${p.image}" alt="${esc(p.name)}" loading="lazy" width="500" height="500" data-card-image>
+      </div>
+      <p class="pcard__meta">${esc(p.brand || p.catName)}</p>
+      <span class="pcard__name">${esc(p.name)}</span>
+      <p class="price mb0 pcard__price">${p.was ? `<s>${money(p.was)}</s>` : ""}<span class="price__now">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</span></p>
+    </a>
+    ${colors.length ? `<span class="pcard__swatches" role="radiogroup" aria-label="Choose a color for ${esc(p.name)}">${colors.map((option, index) => `<button class="pcard__swatch${index ? "" : " is-on"}" type="button" role="radio" aria-checked="${index ? "false" : "true"}" aria-label="${esc(swatchLabel(option.color))}" data-card-color="${esc(String(option.color))}" data-card-variant="${option.variantId}" data-card-image-src="${esc(option.image)}"><span aria-hidden="true" style="${swatchStyle(option.color)}"></span></button>`).join("")}</span>` : ""}
+  </article>`;
+}
+
+function initCardSwatches() {
+  const onSwatchClick = (event) => {
+    const swatch = event.target.closest(".pcard__swatch");
+    if (!swatch) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const card = swatch.closest(".pcard");
+    const cardImage = card?.querySelector("[data-card-image]");
+    const productLink = card?.querySelector(".pcard__link");
+    const mappedImage = swatch.dataset.cardImageSrc;
+    if (mappedImage && cardImage) {
+      cardImage.src = mappedImage;
+      cardImage.alt = `${cardImage.alt.split(", ")[0]}, ${swatch.getAttribute("aria-label")}`;
+    }
+    card?.querySelectorAll(".pcard__swatch").forEach((button) => {
+      const selected = button === swatch;
+      button.classList.toggle("is-on", selected);
+      button.setAttribute("aria-checked", String(selected));
+    });
+    if (productLink && swatch.dataset.cardVariant) {
+      const target = new URL(productLink.href, location.href);
+      target.searchParams.set("variant", swatch.dataset.cardVariant);
+      productLink.href = `${target.pathname.split("/").pop()}${target.search}`;
+    }
+  };
+
+  const bind = (root = document) => root.querySelectorAll(".pcard__swatches:not([data-swatch-wired])").forEach((group) => {
+    group.dataset.swatchWired = "true";
+    group.addEventListener("click", onSwatchClick);
+  });
+  bind();
+  new MutationObserver((records) => {
+    if (records.some((record) => record.addedNodes.length)) bind();
+  }).observe(document.body, { childList: true, subtree: true });
 }
 
 export const esc = (s) =>
@@ -347,25 +433,40 @@ export function initAcc(root = document) {
 function fillNav() {
   const mega = document.getElementById("megagrid");
   if (mega) {
-    mega.innerHTML = CAT.cats.map((c) => `
-      <a class="mega__item" href="shop.html?cat=${c.slug}">
-        <img src="${c.image}" alt="${esc(c.name)} — ${esc(c.heroName)}" loading="lazy" width="200" height="200">
-        <b>${esc(c.name)}</b>
-        <span class="cap">${c.count} products</span>
+    const audienceLinks = (CAT.audiences || []).map((a) =>
+      `<a href="shop.html?audience=${a.slug}">${esc(a.title)} <small>${a.count}</small></a>`).join("");
+    const categoryLinks = CAT.cats.map((c) =>
+      `<a href="shop.html?cat=${c.slug}">${esc(c.name)} <small>${c.count}</small></a>`).join("");
+    const brandLinks = CAT.brands.slice(0, 8).map((b) =>
+      `<a href="shop.html?brand=${encodeURIComponent(b.name)}">${esc(b.name)} <small>${b.count}</small></a>`).join("");
+    const visualLinks = (CAT.audiences || []).slice(0, 3).map((a) => `
+      <a class="mega__visual" href="shop.html?audience=${a.slug}">
+        <img src="${a.image}" alt="${esc(a.title)} fashion" loading="lazy" width="220" height="220">
+        <b>${esc(a.title)}</b>
       </a>`).join("");
+    mega.innerHTML = `
+      <div class="mega__column"><b>Shop by department</b>${audienceLinks}</div>
+      <div class="mega__column"><b>Shop by product</b>${categoryLinks}</div>
+      <div class="mega__column"><b>Popular brands</b>${brandLinks}</div>
+      <div class="mega__visuals">${visualLinks}</div>`;
   }
 
   document.querySelectorAll("[data-collections]").forEach((ul) => {
-    ul.innerHTML = CAT.cats.slice(0, 6).map((c) =>
+    ul.innerHTML = (CAT.audiences || []).map((a) =>
+      `<li><a href="shop.html?audience=${a.slug}">${esc(a.title)}</a></li>`).join("") +
+      CAT.cats.slice(0, 3).map((c) =>
       `<li><a href="shop.html?cat=${c.slug}">${esc(c.name)}</a></li>`).join("") +
       `<li><a href="shop.html"><b>View all categories</b></a></li>`;
   });
 
   document.querySelectorAll("[data-drawer-nav]").forEach((nav) => {
     nav.innerHTML =
-      `<a href="shop.html">View all categories<small>${CAT.cats.length} categories · ${CAT.products.length} products</small></a>` +
+      (CAT.audiences || []).map((a) =>
+        `<a href="shop.html?audience=${a.slug}">${esc(a.title)}<small>${a.count} products</small></a>`).join("") +
+      `<a href="shop.html">Shop by product<small>${CAT.cats.length} categories · ${CAT.products.length} products</small></a>` +
       CAT.cats.map((c) =>
         `<a href="shop.html?cat=${c.slug}">${esc(c.name)}<small>${c.count} products · from ${money(c.from)}</small></a>`).join("") +
+      `<a href="shop.html?view=brands">Brands<small>${CAT.brands.length} brands</small></a>` +
       `<a href="/contact-us">Customer support</a>`;
   });
 }
@@ -528,10 +629,10 @@ function initSearch() {
 
     count.textContent = hits.length === 1 ? "1 product" : `${hits.length} products`;
     out.innerHTML = hits.length
-      ? hits.map((p) => `<a class="sres" href="product.html?id=${p.id}">
-          <span class="sres__art"><img src="${p.image}" alt="" loading="lazy" width="56" height="56"></span>
+      ? hits.map((p) => `<a class="sres${saleBadgeHTML(p, "search") ? " has-timed-sale" : ""}" href="product.html?id=${p.id}">
+          <span class="sres__art">${saleBadgeHTML(p, "search")}<img src="${p.image}" alt="" loading="lazy" width="56" height="56"></span>
           <span><b>${esc(p.name)}</b><span class="cap">${esc(p.catName)}${p.brand ? " · " + esc(p.brand) : ""}</span></span>
-          <span class="price">${money(p.price)}</span>
+          <span class="price sres__price">${p.was ? `<s>${money(p.was)}</s>` : ""}<span>${money(p.price)}</span></span>
         </a>`).join("")
       : `<div class="sempty">
            <p class="h3" style="margin-bottom:6px">Nothing matches “${esc(input.value.trim())}”</p>
@@ -686,7 +787,13 @@ function initDeepLink() {
 
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", async () => {
+  startSaleCountdowns();
+  /* Register both local brand faces even on routes whose above-the-fold state
+     is a skeleton. This prevents a late heading swap when live data arrives. */
+  document.fonts?.load('600 16px "Cormorant Garamond"').catch(() => {});
+  document.fonts?.load('400 16px "Archivo"').catch(() => {});
   initSharedChrome();
+  initCardSwatches();
   // First, so the warning is up before the catalogue resolves. Awaited: the
   // banner shifts the page, and shifting it after the reader has started is
   // worse than a few milliseconds of delay.

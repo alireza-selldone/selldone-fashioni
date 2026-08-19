@@ -332,7 +332,7 @@ html.is-locked,html.is-locked body{overflow:hidden;height:100%;}
 /* ---------- Hero ---------- */
 .hero{
   background:var(--graphite);color:var(--dial);position:relative;overflow:hidden;
-  min-height:min(92vh,860px);display:flex;align-items:center;
+  min-height:min(68vh,720px);display:flex;align-items:center;
 }
 /* .wrap supplies the horizontal padding; a `padding: 80px 0` shorthand here
    reset it to zero and pushed hero content flush against the rail. */
@@ -996,6 +996,12 @@ html.js-reveal .reveal.is-in{opacity:1;transform:none;}
 .sres b{display:block;font-family:var(--display);font-size:16px;font-weight:400;}
 .sres .cap{display:block;margin-top:2px;}
 .sres:hover b{color:var(--blued);}
+.sres__price{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:14px;white-space:nowrap;}
+.sres__price s{color:var(--slate);font-size:11px;font-weight:400;}
+.sale-countdown--search{left:2px;top:2px;min-width:0;min-height:0;padding:3px 4px;box-shadow:0 2px 6px rgba(17,17,17,.12);}
+.sale-countdown--search b{display:none;}
+.sale-countdown--search [data-sale-timer]{font-size:7px;letter-spacing:0;}
+.sres.has-timed-sale .sres__art img{inset:8px 4px 2px;width:calc(100% - 8px);height:calc(100% - 10px);}
 
 .sempty{padding:36px 0;text-align:center;}
 
@@ -1170,7 +1176,7 @@ html.js-reveal .reveal.is-in{opacity:1;transform:none;}
    at 65.4% and 80.7% across, so the right edge is the constraint — as the
    viewport narrows, cover crops the sides and the woman's wrist leaves first.
    Holding the crop right-of-centre keeps both until the layout switches. */
-.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;}
+.hero{position:relative;min-height:min(68vh,720px);display:flex;align-items:center;overflow:hidden;}
 .hero__media{position:absolute;inset:0;z-index:0;}
 .hero__media img{
   width:100%;height:100%;object-fit:cover;object-position:72% 50%;
@@ -1568,7 +1574,7 @@ h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-s
 .fashioni-navrow .nav a{font-size:13px;font-weight:600;min-height:44px;display:flex;align-items:center;}
 .fashioni-navrow .nav a:hover{color:var(--blued);}
 
-.campaign-hero{min-height:clamp(520px,57vw,730px);height:auto;background:var(--theme-hero);color:#fff;display:flex;position:relative;overflow:hidden;align-items:center;}
+.campaign-hero{min-height:clamp(460px,48vw,620px);height:auto;background:var(--theme-hero);color:#fff;display:flex;position:relative;overflow:hidden;align-items:center;}
 .campaign-hero__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
 .campaign-hero__inner{position:relative;z-index:2;width:100%;display:flex;align-items:center;min-height:inherit;}
 .campaign-hero__copy{width:min(520px,47vw);padding:42px;border-radius:16px;background:var(--theme-hero-overlay);box-shadow:0 24px 60px rgba(0,0,0,.24);}
@@ -1787,10 +1793,10 @@ h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-s
   .hdr__in{height:62px;grid-template-columns:auto auto 1fr;gap:12px;}
   .header-search span{display:none;}
   .fashioni-navrow{display:none;}
-  .campaign-hero{min-height:620px;display:block;padding-top:280px;}
-  .campaign-hero__image{object-position:center top;height:280px;}
+  .campaign-hero{min-height:520px;display:block;padding-top:250px;}
+  .campaign-hero__image{object-position:center top;height:250px;}
   .campaign-hero__copy{width:100%;padding:34px 0 68px;background:none;box-shadow:none;}
-  .campaign-hero__inner{position:relative;min-height:340px;align-items:flex-end;background:var(--theme-hero);}
+  .campaign-hero__inner{position:relative;min-height:270px;align-items:flex-end;background:var(--theme-hero);}
   .benefit-bar__grid{grid-template-columns:1fr 1fr;}.benefit-bar__grid>div:nth-child(2){border-right:0;}.benefit-bar__grid>div:nth-child(-n+2){border-bottom:1px solid var(--rule);}
   .fashioni-cats{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
   .newsletter-band__inner{align-items:flex-start;flex-direction:column;}.newsletter-band .sub{width:100%;}
@@ -1806,7 +1812,7 @@ h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-s
   .header-search{width:44px;padding:0;justify-content:center;}
   .fashioni-logo,.logo{font-size:23px;}
   .hdr__act{gap:2px;}
-  .campaign-hero{min-height:620px;}
+  .campaign-hero{min-height:520px;}
   .campaign-hero__copy h1{font-size:clamp(25px,7.4vw,34px);}
   .campaign-hero__copy>p:not(.eyebrow){font-size:15px;}
   .campaign-hero__actions{grid-template-columns:1fr;}

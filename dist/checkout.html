@@ -38,15 +38,18 @@
         <p class="sdbar__in"><svg class="sdbar__hx" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.7 4.4 13a4.8 4.8 0 0 1 6.8-6.8l.8.8.8-.8A4.8 4.8 0 1 1 19.6 13Z"/></svg><span class="sdbar__made">Made with</span><a href="https://selldone.com" rel="noopener">Selldone</a></p>
       </div>
 
-      <!-- Checkout runs its own stripped header: no navigation, no bag, no exits. -->
-      <header class="cohdr">
-        <div class="wrap cohdr__in">
-          <a class="logo fashioni-logo" href="index.html" style="text-align:left">FASHIO<span>NI</span></a>
-          <span class="secure">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-            Secure checkout
-          </span>
+      <header class="hdr fashioni-header" data-shared-chrome="v2">
+        <div class="topbar"><span class="topbar__long" data-announce-long>Fresh fashion · Easy discovery · Secure checkout</span><span class="topbar__short" data-announce-short>Fresh fashion · Secure checkout</span></div>
+        <div class="wrap hdr__in fashioni-primary">
+          <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search for products, brands and categories</span></button>
+          <a class="logo fashioni-logo" href="index.html" aria-label="Fashioni home">FASHIO<span>NI</span></a>
+          <div class="hdr__tools"><div class="hdr__act">
+            <button class="iconbtn" type="button" data-open="account" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></button>
+            <button class="iconbtn" type="button" data-open="cart" aria-label="Open bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cartdot" data-cart-count hidden>0</span></button>
+            <a class="header-checkout" href="checkout.html">Checkout</a>
+          </div></div>
         </div>
+        <div class="fashioni-navrow"><nav class="nav audience-nav" aria-label="Main"><a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="shop.html">Shop by product</a><a href="shop.html?view=brands">Brands</a></nav><div class="mega"><div class="mega__grid" id="megagrid"></div></div></div>
       </header>
 
       <main id="main" tabindex="-1" class="section" style="padding-top:44px">

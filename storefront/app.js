@@ -629,10 +629,10 @@ function initSearch() {
 
     count.textContent = hits.length === 1 ? "1 product" : `${hits.length} products`;
     out.innerHTML = hits.length
-      ? hits.map((p) => `<a class="sres" href="product.html?id=${p.id}">
-          <span class="sres__art"><img src="${p.image}" alt="" loading="lazy" width="56" height="56"></span>
+      ? hits.map((p) => `<a class="sres${saleBadgeHTML(p, "search") ? " has-timed-sale" : ""}" href="product.html?id=${p.id}">
+          <span class="sres__art">${saleBadgeHTML(p, "search")}<img src="${p.image}" alt="" loading="lazy" width="56" height="56"></span>
           <span><b>${esc(p.name)}</b><span class="cap">${esc(p.catName)}${p.brand ? " · " + esc(p.brand) : ""}</span></span>
-          <span class="price">${money(p.price)}</span>
+          <span class="price sres__price">${p.was ? `<s>${money(p.was)}</s>` : ""}<span>${money(p.price)}</span></span>
         </a>`).join("")
       : `<div class="sempty">
            <p class="h3" style="margin-bottom:6px">Nothing matches “${esc(input.value.trim())}”</p>
