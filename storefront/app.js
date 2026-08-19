@@ -103,7 +103,7 @@ export function cardHTML(p) {
   const colors = [...new Set(p.colors || [])].slice(0, 6).map((color) => {
     const variants = (p.variants || []).filter((variant) => String(variant.color).toUpperCase() === String(color).toUpperCase());
     const imageVariant = variants.find((variant) => variant.image) || variants[0];
-    return { color, variantId: imageVariant?.id || "", image: imageVariant?.image ? img(imageVariant.image) : "" };
+    return { color, variantId: imageVariant?.id || "", image: imageVariant?.image ? img(imageVariant.image) : p.image };
   });
   return `<article class="pcard${saleBadge ? " has-timed-sale" : ""}" data-card-product="${p.id}">
     <a class="pcard__link" href="product.html?id=${p.id}">

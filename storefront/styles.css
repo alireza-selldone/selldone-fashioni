@@ -461,10 +461,11 @@ html.is-locked,html.is-locked body{overflow:hidden;height:100%;}
 @media (max-width:560px){.pgrid{grid-template-columns:1fr;} .pcard{padding:20px;} .pcard__name{font-size:18px;}}
 
 /* Horizontal rail */
-.scroller{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--rule);border:1px solid var(--rule);}
+.scroller{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--rule);border:1px solid var(--rule);cursor:grab;touch-action:pan-y;overscroll-behavior-inline:contain;scrollbar-width:none;}
+.scroller.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none;}
+.scroller.is-dragging *{pointer-events:none;}
 .scroller>*{flex:0 0 clamp(240px,30%,340px);scroll-snap-align:start;}
-.scroller::-webkit-scrollbar{height:2px;}
-.scroller::-webkit-scrollbar-thumb{background:var(--whisper);}
+.scroller::-webkit-scrollbar{display:none;}
 
 /* ---------- Editorial ---------- */
 .edit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center;}
