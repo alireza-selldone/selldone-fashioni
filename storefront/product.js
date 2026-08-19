@@ -6,7 +6,7 @@ import {
   variantsOf, swatchStyle, swatchLabel, isComposite,
   addToBag,
 } from "./shop-data.js";
-import { cardHTML, esc, initAcc, openLightbox } from "./app.js";
+import { cardHTML, esc, initAcc, openLightbox, saleBadgeHTML } from "./app.js";
 
 /* Spec keys worth surfacing, in reading order. Only those the record actually
    holds are rendered; nothing is filled in. */
@@ -41,6 +41,36 @@ const SAMPLE_REVIEWS = [
   ["Noah T.", "A versatile everyday piece with a clean shape and useful details."],
   ["Ava M.", "The product page made the available colors and stock easy to understand."],
 ];
+
+const SHOE_LENGTHS = new Map([
+  [20, 12.5], [21, 13.2], [22, 13.8], [23, 14.5], [24, 15.2], [25, 15.8],
+  [26, 16.5], [27, 17.2], [28, 17.8], [29, 18.5], [30, 19.2], [31, 19.8],
+  [32, 20.5], [33, 21.2], [34, 21.8], [35, 22.5], [36, 23.2], [37, 23.8],
+  [38, 24.5], [39, 25.2], [40, 25.8], [41, 26.5], [42, 27.2], [43, 27.8],
+  [44, 28.5], [45, 29.2], [46, 29.8],
+]);
+
+function sizeGuideHTML(p, category, sizeValues) {
+  const text = `${p.name} ${category.name} ${p.cat}`.toLowerCase();
+  const isShoe = /shoe|trainer|footwear|boot|sneaker|sandal|loafer|heel/.test(text);
+  const isBaby = /baby|newborn|sleepsuit|bodysuit|romper|pramsuit|bootie/.test(text);
+  const numericSizes = sizeValues.map(Number).filter(Number.isFinite);
+
+  if (isShoe && numericSizes.length) {
+    return `<table class="size-guide-table">
+      <thead><tr><th scope="col">EU size</th><th scope="col">Approx. foot length</th></tr></thead>
+      <tbody>${numericSizes.map((size) => `<tr><th scope="row">${esc(size)}</th><td>${SHOE_LENGTHS.has(size) ? `${SHOE_LENGTHS.get(size).toFixed(1)} cm` : "Measure heel to toe"}</td></tr>`).join("")}</tbody>
+    </table>`;
+  }
+
+  if (isBaby) {
+    const rows = [["0–3 months", "56–62 cm"], ["3–6 months", "62–68 cm"], ["6–9 months", "68–74 cm"], ["9–12 months", "74–80 cm"], ["12–18 months", "80–86 cm"], ["18–24 months", "86–92 cm"]];
+    return `<table class="size-guide-table"><thead><tr><th scope="col">Age size</th><th scope="col">Child height</th></tr></thead><tbody>${rows.map(([size, height]) => `<tr><th scope="row">${size}</th><td>${height}</td></tr>`).join("")}</tbody></table>`;
+  }
+
+  const rows = [["XS", "80–84", "62–66", "86–90"], ["S", "84–88", "66–70", "90–94"], ["M", "88–94", "70–76", "94–100"], ["L", "94–100", "76–82", "100–106"], ["XL", "100–108", "82–90", "106–114"]];
+  return `<table class="size-guide-table"><thead><tr><th scope="col">Size</th><th scope="col">Chest</th><th scope="col">Waist</th><th scope="col">Hip</th></tr></thead><tbody>${rows.map(([size, chest, waist, hip]) => `<tr><th scope="row">${size}</th><td>${chest} cm</td><td>${waist} cm</td><td>${hip} cm</td></tr>`).join("")}</tbody></table>`;
+}
 
 function ratingBlock(p) {
   return `<div class="reviews-block">
@@ -129,6 +159,7 @@ async function initPDP(cat) {
           </button>`).join("")}
       </div>
       <button class="galmain" id="galmain" type="button" aria-label="Enlarge image">
+        ${saleBadgeHTML(p, "product")}
         <img src="${gallery[0].src}" alt="${esc(gallery[0].alt)}" width="${gallery[0].w}" height="${gallery[0].h}" fetchpriority="high">
       </button>
     </div>
@@ -160,7 +191,7 @@ async function initPDP(cat) {
 
       ${sizeValues.length ? `
       <div class="size-options">
-        <div class="size-options__head"><p class="eyebrow mb0">Size</p><a href="#size-guide">Size guide</a></div>
+        <div class="size-options__head"><p class="eyebrow mb0">Size</p><button class="size-guide-link" type="button" data-open-size-guide>Size guide</button></div>
         <div class="size-options__grid" role="radiogroup" aria-label="Choose size">
           ${sizeValues.map((size) => `<button type="button" class="sizeopt${size === selectedSize ? " is-on" : ""}" role="radio" aria-checked="${size === selectedSize ? "true" : "false"}" data-size="${esc(size)}">${esc(String(size).toUpperCase())}</button>`).join("")}
         </div>
@@ -201,7 +232,20 @@ async function initPDP(cat) {
         </div>
       </div>
     </div>
-  </div>`;
+  </div>
+  ${sizeValues.length ? `<dialog class="size-guide-sheet" data-size-guide-dialog aria-labelledby="size-guide-title">
+    <div class="size-guide-sheet__panel">
+      <header class="size-guide-sheet__head">
+        <div><p class="eyebrow mb0">General reference</p><h2 id="size-guide-title">Size guide</h2></div>
+        <button class="size-guide-sheet__close" type="button" data-close-size-guide aria-label="Close size guide">×</button>
+      </header>
+      <div class="size-guide-sheet__body">
+        <p class="size-guide-sheet__intro">Use this table as a general guide. Measurements can vary by style; the selectable sizes on this page are the current live options for this product.</p>
+        ${sizeGuideHTML(p, c, sizeValues)}
+        <p class="size-guide-sheet__tip"><strong>How to measure:</strong> keep the tape level and close to the body without pulling it tight. For footwear, measure from the back of the heel to the longest toe.</p>
+      </div>
+    </div>
+  </dialog>` : ""}`;
 
   /* Reviews */
   const rev = document.getElementById("reviews");
@@ -311,6 +355,13 @@ async function initPDP(cat) {
     selectVariant(next);
   }));
   if (selectedVariant) selectVariant(selectedVariant);
+
+  const sizeGuide = root.querySelector("[data-size-guide-dialog]");
+  root.querySelector("[data-open-size-guide]")?.addEventListener("click", () => sizeGuide?.showModal());
+  root.querySelector("[data-close-size-guide]")?.addEventListener("click", () => sizeGuide?.close());
+  sizeGuide?.addEventListener("click", (event) => {
+    if (event.target === sizeGuide) sizeGuide.close();
+  });
 
   initAcc(root);
 

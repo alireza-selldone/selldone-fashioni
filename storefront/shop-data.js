@@ -541,6 +541,8 @@ export async function loadCatalog() {
       catName: index.get(Number(p.category_id))?.title || "",
       price: finalPrice(p),
       was: wasPrice(p),
+      saleStartsAt: p.dis_start || "",
+      saleEndsAt: p.dis_end || "",
       qty: Number(p.quantity) || 0,
       rate: Number(p.rate) || 0,
       rateCount: Number(p.rate_count) || 0,

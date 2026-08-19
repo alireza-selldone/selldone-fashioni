@@ -13,6 +13,44 @@ import { shopConfig, isUnconfigured } from "./shop-config.js";
 
 let CAT = null;
 
+function saleEndOf(p) {
+  const end = p?.saleEndsAt || p?.raw?.dis_end || p?.dis_end || "";
+  const timestamp = Date.parse(end);
+  return Number.isFinite(timestamp) && timestamp > Date.now() ? { end, timestamp } : null;
+}
+
+export function saleBadgeHTML(p, context = "card") {
+  const sale = saleEndOf(p);
+  const active = p?.was || (Number(p?.discount) > 0 && (!p?.dis_start || Date.now() >= Date.parse(p.dis_start)));
+  if (!active || !sale) return "";
+  return `<span class="sale-countdown sale-countdown--${context}" data-sale-end="${esc(sale.end)}" role="status" aria-label="Timed sale ends at ${esc(sale.end)}">
+    <b>Ends in</b><span data-sale-timer>--:--:--</span>
+  </span>`;
+}
+
+function startSaleCountdowns() {
+  const tick = () => {
+    const now = Date.now();
+    document.querySelectorAll("[data-sale-end]").forEach((badge) => {
+      const remaining = Math.max(0, Date.parse(badge.dataset.saleEnd) - now);
+      if (!remaining) {
+        badge.remove();
+        return;
+      }
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const pad = (value) => String(value).padStart(2, "0");
+      const timer = badge.querySelector("[data-sale-timer]");
+      if (timer) timer.textContent = `${days ? `${pad(days)}d ` : ""}${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    });
+  };
+  tick();
+  setInterval(tick, 1000);
+}
+
 /* ---------- Shared storefront chrome ----------
    Every public page uses one header and footer contract. Older standalone
    pages still carry equivalent static markup as a no-JS fallback; this
@@ -61,16 +99,61 @@ function initSharedChrome() {
 
 /* ---------- Shared card ---------- */
 export function cardHTML(p) {
-  return `<a class="pcard" href="product.html?id=${p.id}">
-    <div class="pcard__art">
-      <span class="pcard__badge">${p.raw?.created_at ? "New in" : "Fashioni"}</span>
-      <img src="${p.image}" alt="${esc(p.name)}" loading="lazy" width="500" height="500">
-    </div>
-    <p class="pcard__meta">${esc(p.brand || p.catName)}</p>
-    <span class="pcard__name">${esc(p.name)}</span>
-    <p class="price mb0">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</p>
-    ${p.colors?.length ? `<span class="pcard__swatches" aria-label="${p.colors.length} colour options">${[...new Set(p.colors)].slice(0,6).map((color) => `<i style="${swatchStyle(color)}"></i>`).join("")}</span>` : ""}
-  </a>`;
+  const saleBadge = saleBadgeHTML(p);
+  const colors = [...new Set(p.colors || [])].slice(0, 6).map((color) => {
+    const variants = (p.variants || []).filter((variant) => String(variant.color).toUpperCase() === String(color).toUpperCase());
+    const imageVariant = variants.find((variant) => variant.image) || variants[0];
+    return { color, variantId: imageVariant?.id || "", image: imageVariant?.image ? img(imageVariant.image) : "" };
+  });
+  return `<article class="pcard${saleBadge ? " has-timed-sale" : ""}" data-card-product="${p.id}">
+    <a class="pcard__link" href="product.html?id=${p.id}">
+      <div class="pcard__art">
+        <span class="pcard__badge">${p.raw?.created_at ? "New in" : "Fashioni"}</span>
+        ${saleBadge}
+        <img src="${p.image}" alt="${esc(p.name)}" loading="lazy" width="500" height="500" data-card-image>
+      </div>
+      <p class="pcard__meta">${esc(p.brand || p.catName)}</p>
+      <span class="pcard__name">${esc(p.name)}</span>
+      <p class="price mb0">${p.range?.varies ? `<span class="price__from">from</span> ${money(p.range.from)}` : money(p.price)}</p>
+    </a>
+    ${colors.length ? `<span class="pcard__swatches" role="radiogroup" aria-label="Choose a color for ${esc(p.name)}">${colors.map((option, index) => `<button class="pcard__swatch${index ? "" : " is-on"}" type="button" role="radio" aria-checked="${index ? "false" : "true"}" aria-label="${esc(swatchLabel(option.color))}" data-card-color="${esc(String(option.color))}" data-card-variant="${option.variantId}" data-card-image-src="${esc(option.image)}"><span aria-hidden="true" style="${swatchStyle(option.color)}"></span></button>`).join("")}</span>` : ""}
+  </article>`;
+}
+
+function initCardSwatches() {
+  const onSwatchClick = (event) => {
+    const swatch = event.target.closest(".pcard__swatch");
+    if (!swatch) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const card = swatch.closest(".pcard");
+    const cardImage = card?.querySelector("[data-card-image]");
+    const productLink = card?.querySelector(".pcard__link");
+    const mappedImage = swatch.dataset.cardImageSrc;
+    if (mappedImage && cardImage) {
+      cardImage.src = mappedImage;
+      cardImage.alt = `${cardImage.alt.split(", ")[0]}, ${swatch.getAttribute("aria-label")}`;
+    }
+    card?.querySelectorAll(".pcard__swatch").forEach((button) => {
+      const selected = button === swatch;
+      button.classList.toggle("is-on", selected);
+      button.setAttribute("aria-checked", String(selected));
+    });
+    if (productLink && swatch.dataset.cardVariant) {
+      const target = new URL(productLink.href, location.href);
+      target.searchParams.set("variant", swatch.dataset.cardVariant);
+      productLink.href = `${target.pathname.split("/").pop()}${target.search}`;
+    }
+  };
+
+  const bind = (root = document) => root.querySelectorAll(".pcard__swatches:not([data-swatch-wired])").forEach((group) => {
+    group.dataset.swatchWired = "true";
+    group.addEventListener("click", onSwatchClick);
+  });
+  bind();
+  new MutationObserver((records) => {
+    if (records.some((record) => record.addedNodes.length)) bind();
+  }).observe(document.body, { childList: true, subtree: true });
 }
 
 export const esc = (s) =>
@@ -704,11 +787,13 @@ function initDeepLink() {
 
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", async () => {
+  startSaleCountdowns();
   /* Register both local brand faces even on routes whose above-the-fold state
      is a skeleton. This prevents a late heading swap when live data arrives. */
   document.fonts?.load('600 16px "Cormorant Garamond"').catch(() => {});
   document.fonts?.load('400 16px "Archivo"').catch(() => {});
   initSharedChrome();
+  initCardSwatches();
   // First, so the warning is up before the catalogue resolves. Awaited: the
   // banner shifts the page, and shifting it after the reader has started is
   // worse than a few milliseconds of delay.

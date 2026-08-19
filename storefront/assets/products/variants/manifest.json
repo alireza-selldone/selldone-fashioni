@@ -1,0 +1,614 @@
+[
+  {
+    "productId": 710322,
+    "title": "Luma & Lane Sky Quilted Pramsuit",
+    "color": "#A9B6A0",
+    "targetVariantId": 1401915,
+    "variantIds": [
+      1401915,
+      1401916,
+      1401917,
+      1401918,
+      1401919
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710322.png",
+    "outputFile": "storefront/assets/products/variants/710322-a9b6a0.png"
+  },
+  {
+    "productId": 710322,
+    "title": "Luma & Lane Sky Quilted Pramsuit",
+    "color": "#D8CBB8",
+    "targetVariantId": 1401920,
+    "variantIds": [
+      1401920,
+      1401921,
+      1401922,
+      1401923,
+      1401924
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710322.png",
+    "outputFile": "storefront/assets/products/variants/710322-d8cbb8.png"
+  },
+  {
+    "productId": 710326,
+    "title": "Luma & Lane Cloud Knit Cardigan",
+    "color": "#D7A4A4",
+    "targetVariantId": 1401955,
+    "variantIds": [
+      1401955,
+      1401956,
+      1401957,
+      1401958,
+      1401959
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710326.png",
+    "outputFile": "storefront/assets/products/variants/710326-d7a4a4.png"
+  },
+  {
+    "productId": 710326,
+    "title": "Luma & Lane Cloud Knit Cardigan",
+    "color": "#C9B7DB",
+    "targetVariantId": 1401960,
+    "variantIds": [
+      1401960,
+      1401961,
+      1401962,
+      1401963,
+      1401964
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710326.png",
+    "outputFile": "storefront/assets/products/variants/710326-c9b7db.png"
+  },
+  {
+    "productId": 710331,
+    "title": "Luma & Lane Forest Fleece Zip Hoodie",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402005,
+    "variantIds": [
+      1402005,
+      1402006,
+      1402007,
+      1402008,
+      1402009
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710331.png",
+    "outputFile": "storefront/assets/products/variants/710331-3e5c8a.png"
+  },
+  {
+    "productId": 710331,
+    "title": "Luma & Lane Forest Fleece Zip Hoodie",
+    "color": "#A66A4A",
+    "targetVariantId": 1402010,
+    "variantIds": [
+      1402010,
+      1402011,
+      1402012,
+      1402013,
+      1402014
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710331.png",
+    "outputFile": "storefront/assets/products/variants/710331-a66a4a.png"
+  },
+  {
+    "productId": 710333,
+    "title": "Luma & Lane Cobalt Lightweight Puffer Jacket",
+    "color": "#244B36",
+    "targetVariantId": 1402025,
+    "variantIds": [
+      1402025,
+      1402026,
+      1402027,
+      1402028,
+      1402029
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710333.png",
+    "outputFile": "storefront/assets/products/variants/710333-244b36.png"
+  },
+  {
+    "productId": 710333,
+    "title": "Luma & Lane Cobalt Lightweight Puffer Jacket",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402030,
+    "variantIds": [
+      1402030,
+      1402031,
+      1402032,
+      1402033,
+      1402034
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710333.png",
+    "outputFile": "storefront/assets/products/variants/710333-3e5c8a.png"
+  },
+  {
+    "productId": 710320,
+    "title": "Luma & Lane Oatmeal Ribbed Bodysuit Set",
+    "color": "#A9B6A0",
+    "targetVariantId": 1401895,
+    "variantIds": [
+      1401895,
+      1401896,
+      1401897,
+      1401898,
+      1401899
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710320.png",
+    "outputFile": "storefront/assets/products/variants/710320-a9b6a0.png"
+  },
+  {
+    "productId": 710320,
+    "title": "Luma & Lane Oatmeal Ribbed Bodysuit Set",
+    "color": "#B7CBE6",
+    "targetVariantId": 1401900,
+    "variantIds": [
+      1401900,
+      1401901,
+      1401902,
+      1401903,
+      1401904
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710320.png",
+    "outputFile": "storefront/assets/products/variants/710320-b7cbe6.png"
+  },
+  {
+    "productId": 710338,
+    "title": "Luma & Lane Rose Hooded Fleece Jacket",
+    "color": "#C9B7DB",
+    "targetVariantId": 1402081,
+    "variantIds": [
+      1402081,
+      1402082,
+      1402083,
+      1402084,
+      1402085
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710338.png",
+    "outputFile": "storefront/assets/products/variants/710338-c9b7db.png"
+  },
+  {
+    "productId": 710338,
+    "title": "Luma & Lane Rose Hooded Fleece Jacket",
+    "color": "#F4EBDD",
+    "targetVariantId": 1402086,
+    "variantIds": [
+      1402086,
+      1402087,
+      1402088,
+      1402089,
+      1402090
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710338.png",
+    "outputFile": "storefront/assets/products/variants/710338-f4ebdd.png"
+  },
+  {
+    "productId": 710321,
+    "title": "Luma & Lane Bear Cloud Sleepsuit",
+    "color": "#B7CBE6",
+    "targetVariantId": 1401905,
+    "variantIds": [
+      1401905,
+      1401906,
+      1401907,
+      1401908,
+      1401909
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710321.png",
+    "outputFile": "storefront/assets/products/variants/710321-b7cbe6.png"
+  },
+  {
+    "productId": 710321,
+    "title": "Luma & Lane Bear Cloud Sleepsuit",
+    "color": "#D8CBB8",
+    "targetVariantId": 1401910,
+    "variantIds": [
+      1401910,
+      1401911,
+      1401912,
+      1401913,
+      1401914
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710321.png",
+    "outputFile": "storefront/assets/products/variants/710321-d8cbb8.png"
+  },
+  {
+    "productId": 710330,
+    "title": "Luma & Lane Trail Graphic Cotton T-Shirt",
+    "color": "#3D5A40",
+    "targetVariantId": 1401995,
+    "variantIds": [
+      1401995,
+      1401996,
+      1401997,
+      1401998,
+      1401999
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710330.png",
+    "outputFile": "storefront/assets/products/variants/710330-3d5a40.png"
+  },
+  {
+    "productId": 710330,
+    "title": "Luma & Lane Trail Graphic Cotton T-Shirt",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402000,
+    "variantIds": [
+      1402000,
+      1402001,
+      1402002,
+      1402003,
+      1402004
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710330.png",
+    "outputFile": "storefront/assets/products/variants/710330-3e5c8a.png"
+  },
+  {
+    "productId": 710323,
+    "title": "Luma & Lane Sage Dungaree Romper",
+    "color": "#D8CBB8",
+    "targetVariantId": 1401925,
+    "variantIds": [
+      1401925,
+      1401926,
+      1401927,
+      1401928,
+      1401929
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710323.png",
+    "outputFile": "storefront/assets/products/variants/710323-d8cbb8.png"
+  },
+  {
+    "productId": 710323,
+    "title": "Luma & Lane Sage Dungaree Romper",
+    "color": "#B7CBE6",
+    "targetVariantId": 1401930,
+    "variantIds": [
+      1401930,
+      1401931,
+      1401932,
+      1401933,
+      1401934
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710323.png",
+    "outputFile": "storefront/assets/products/variants/710323-b7cbe6.png"
+  },
+  {
+    "productId": 710335,
+    "title": "Luma & Lane Rainbow Cotton Sweatshirt",
+    "color": "#D7A4A4",
+    "targetVariantId": 1402051,
+    "variantIds": [
+      1402051,
+      1402052,
+      1402053,
+      1402054,
+      1402055
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710335.png",
+    "outputFile": "storefront/assets/products/variants/710335-d7a4a4.png"
+  },
+  {
+    "productId": 710335,
+    "title": "Luma & Lane Rainbow Cotton Sweatshirt",
+    "color": "#F4EBDD",
+    "targetVariantId": 1402056,
+    "variantIds": [
+      1402056,
+      1402057,
+      1402058,
+      1402059,
+      1402060
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710335.png",
+    "outputFile": "storefront/assets/products/variants/710335-f4ebdd.png"
+  },
+  {
+    "productId": 710325,
+    "title": "Luma & Lane Meadow Ribbed Bodysuit Set",
+    "color": "#F4EBDD",
+    "targetVariantId": 1401945,
+    "variantIds": [
+      1401945,
+      1401946,
+      1401947,
+      1401948,
+      1401949
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710325.png",
+    "outputFile": "storefront/assets/products/variants/710325-f4ebdd.png"
+  },
+  {
+    "productId": 710325,
+    "title": "Luma & Lane Meadow Ribbed Bodysuit Set",
+    "color": "#C9B7DB",
+    "targetVariantId": 1401950,
+    "variantIds": [
+      1401950,
+      1401951,
+      1401952,
+      1401953,
+      1401954
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710325.png",
+    "outputFile": "storefront/assets/products/variants/710325-c9b7db.png"
+  },
+  {
+    "productId": 710327,
+    "title": "Luma & Lane Petal Ruffle Sleepsuit",
+    "color": "#F4EBDD",
+    "targetVariantId": 1401965,
+    "variantIds": [
+      1401965,
+      1401966,
+      1401967,
+      1401968,
+      1401969
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710327.png",
+    "outputFile": "storefront/assets/products/variants/710327-f4ebdd.png"
+  },
+  {
+    "productId": 710327,
+    "title": "Luma & Lane Petal Ruffle Sleepsuit",
+    "color": "#C9B7DB",
+    "targetVariantId": 1401970,
+    "variantIds": [
+      1401970,
+      1401971,
+      1401972,
+      1401973,
+      1401974
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710327.png",
+    "outputFile": "storefront/assets/products/variants/710327-c9b7db.png"
+  },
+  {
+    "productId": 710328,
+    "title": "Luma & Lane Rainbow Jersey Romper Set",
+    "color": "#D7A4A4",
+    "targetVariantId": 1401975,
+    "variantIds": [
+      1401975,
+      1401976,
+      1401977,
+      1401978,
+      1401979
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710328.png",
+    "outputFile": "storefront/assets/products/variants/710328-d7a4a4.png"
+  },
+  {
+    "productId": 710328,
+    "title": "Luma & Lane Rainbow Jersey Romper Set",
+    "color": "#C9B7DB",
+    "targetVariantId": 1401980,
+    "variantIds": [
+      1401980,
+      1401981,
+      1401982,
+      1401983,
+      1401984
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710328.png",
+    "outputFile": "storefront/assets/products/variants/710328-c9b7db.png"
+  },
+  {
+    "productId": 710332,
+    "title": "Luma & Lane Stone Stretch Chino Jogger",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402015,
+    "variantIds": [
+      1402015,
+      1402016,
+      1402017,
+      1402018,
+      1402019
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710332.png",
+    "outputFile": "storefront/assets/products/variants/710332-3e5c8a.png"
+  },
+  {
+    "productId": 710332,
+    "title": "Luma & Lane Stone Stretch Chino Jogger",
+    "color": "#7C8798",
+    "targetVariantId": 1402020,
+    "variantIds": [
+      1402020,
+      1402021,
+      1402022,
+      1402023,
+      1402024
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710332.png",
+    "outputFile": "storefront/assets/products/variants/710332-7c8798.png"
+  },
+  {
+    "productId": 710336,
+    "title": "Luma & Lane Petal Pleated Everyday Dress",
+    "color": "#C9B7DB",
+    "targetVariantId": 1402061,
+    "variantIds": [
+      1402061,
+      1402062,
+      1402063,
+      1402064,
+      1402065
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710336.png",
+    "outputFile": "storefront/assets/products/variants/710336-c9b7db.png"
+  },
+  {
+    "productId": 710336,
+    "title": "Luma & Lane Petal Pleated Everyday Dress",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402066,
+    "variantIds": [
+      1402066,
+      1402067,
+      1402068,
+      1402069,
+      1402070
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710336.png",
+    "outputFile": "storefront/assets/products/variants/710336-3e5c8a.png"
+  },
+  {
+    "productId": 710337,
+    "title": "Luma & Lane Lilac Wide-Leg Jersey Trousers",
+    "color": "#D7A4A4",
+    "targetVariantId": 1402071,
+    "variantIds": [
+      1402071,
+      1402072,
+      1402073,
+      1402074,
+      1402075
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710337.png",
+    "outputFile": "storefront/assets/products/variants/710337-d7a4a4.png"
+  },
+  {
+    "productId": 710337,
+    "title": "Luma & Lane Lilac Wide-Leg Jersey Trousers",
+    "color": "#7C8798",
+    "targetVariantId": 1402076,
+    "variantIds": [
+      1402076,
+      1402077,
+      1402078,
+      1402079,
+      1402080
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710337.png",
+    "outputFile": "storefront/assets/products/variants/710337-7c8798.png"
+  },
+  {
+    "productId": 710324,
+    "title": "Luma & Lane First Step Knit Booties",
+    "color": "#D8CBB8",
+    "targetVariantId": 1401935,
+    "variantIds": [
+      1401935,
+      1401936,
+      1401937,
+      1401938,
+      1401939
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710324.png",
+    "outputFile": "storefront/assets/products/variants/710324-d8cbb8.png"
+  },
+  {
+    "productId": 710324,
+    "title": "Luma & Lane First Step Knit Booties",
+    "color": "#A9B6A0",
+    "targetVariantId": 1401940,
+    "variantIds": [
+      1401940,
+      1401941,
+      1401942,
+      1401943,
+      1401944
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710324.png",
+    "outputFile": "storefront/assets/products/variants/710324-a9b6a0.png"
+  },
+  {
+    "productId": 710329,
+    "title": "Luma & Lane First Bloom Soft-Sole Shoes",
+    "color": "#F4EBDD",
+    "targetVariantId": 1401985,
+    "variantIds": [
+      1401985,
+      1401986,
+      1401987,
+      1401988,
+      1401989
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710329.png",
+    "outputFile": "storefront/assets/products/variants/710329-f4ebdd.png"
+  },
+  {
+    "productId": 710329,
+    "title": "Luma & Lane First Bloom Soft-Sole Shoes",
+    "color": "#C9B7DB",
+    "targetVariantId": 1401990,
+    "variantIds": [
+      1401990,
+      1401991,
+      1401992,
+      1401993,
+      1401994
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710329.png",
+    "outputFile": "storefront/assets/products/variants/710329-c9b7db.png"
+  },
+  {
+    "productId": 710334,
+    "title": "Luma & Lane Courtline Kids Trainers",
+    "color": "#185BC7",
+    "targetVariantId": 1402035,
+    "variantIds": [
+      1402035,
+      1402036,
+      1402037,
+      1402038,
+      1402039,
+      1402040,
+      1402041,
+      1402042
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710334.png",
+    "outputFile": "storefront/assets/products/variants/710334-185bc7.png"
+  },
+  {
+    "productId": 710334,
+    "title": "Luma & Lane Courtline Kids Trainers",
+    "color": "#244B36",
+    "targetVariantId": 1402043,
+    "variantIds": [
+      1402043,
+      1402044,
+      1402045,
+      1402046,
+      1402047,
+      1402048,
+      1402049,
+      1402050
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710334.png",
+    "outputFile": "storefront/assets/products/variants/710334-244b36.png"
+  },
+  {
+    "productId": 710339,
+    "title": "Luma & Lane Starstep Everyday Trainers",
+    "color": "#D98C78",
+    "targetVariantId": 1402091,
+    "variantIds": [
+      1402091,
+      1402092,
+      1402093,
+      1402094,
+      1402095,
+      1402096,
+      1402097,
+      1402098
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710339.png",
+    "outputFile": "storefront/assets/products/variants/710339-d98c78.png"
+  },
+  {
+    "productId": 710339,
+    "title": "Luma & Lane Starstep Everyday Trainers",
+    "color": "#3E5C8A",
+    "targetVariantId": 1402099,
+    "variantIds": [
+      1402099,
+      1402100,
+      1402101,
+      1402102,
+      1402103,
+      1402104,
+      1402105,
+      1402106
+    ],
+    "referenceFile": "storefront/assets/products/variants/references/710339.png",
+    "outputFile": "storefront/assets/products/variants/710339-3e5c8a.png"
+  }
+]
