@@ -33,12 +33,34 @@ for (const p of CONTENT) {
   else fail("/no-such-page did not fall back; the size check proves nothing");
 }
 
+/* 2 — first-paint header matches the hydrated header --------------------- */
+console.log("\n2. Static header matches the final shared chrome");
+for (const p of ALL) {
+  const body = await (await fetch(B + p)).text();
+  const header = body.match(/<header\b[\s\S]*?<\/header>/i)?.[0] || "";
+  const required = [
+    'data-shared-chrome="v2"',
+    "fashioni-primary",
+    "header-search",
+    "audience-nav",
+    "header-checkout",
+  ];
+  const missing = required.filter((token) => !header.includes(token));
+  const searchBeforeLogo = header.indexOf("header-search") < header.indexOf("fashioni-logo");
+  const legacy = /New &amp; All|Haute Horlogerie|Buying Guides|class="cohdr"/.test(header);
+  if (!header) fail(`${p}: no static header`);
+  else if (missing.length) fail(`${p}: first-paint header missing ${missing.join(", ")}`);
+  else if (!searchBeforeLogo) fail(`${p}: search is not left of the logo in source order`);
+  else if (legacy) fail(`${p}: legacy header content remains in initial HTML`);
+  else pass(`${p.padEnd(32)} shared header present before JavaScript`);
+}
+
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await ctx.newPage();
 
-/* 2 — every footer link resolves ----------------------------------------- */
-console.log("\n2. Footer links resolve");
+/* 3 — every footer link resolves ----------------------------------------- */
+console.log("\n3. Footer links resolve");
 const checked = new Map();
 for (const p of ALL) {
   await page.goto(B + p, { waitUntil: "domcontentloaded" });
@@ -64,8 +86,8 @@ for (const p of ALL) {
 }
 console.log(`        ${checked.size} distinct footer hrefs, all resolved`);
 
-/* 3 — no href="#" left anywhere ------------------------------------------ */
-console.log("\n3. No href=\"#\" anywhere");
+/* 4 — no href="#" left anywhere ------------------------------------------ */
+console.log("\n4. No href=\"#\" anywhere");
 let stubs = 0;
 for (const p of ALL) {
   await page.goto(B + p, { waitUntil: "domcontentloaded" });
@@ -78,12 +100,12 @@ for (const p of ALL) {
 }
 if (!stubs) pass(`0 stub links across all ${ALL.length} page states`);
 
-/* 4 — Terms anchors scroll to the right section --------------------------- */
+/* 5 — Terms anchors scroll to the right section --------------------------- */
 /* Run each anchor on a COLD context. With fonts warm all three land perfectly;
    the failure only appears on a first visit, when the web fonts reflow the
    document after the browser has already jumped. That is the visitor's
    experience, so it is the one worth testing. */
-console.log("\n4. Terms anchors scroll to their section (cold cache)");
+console.log("\n5. Terms anchors scroll to their section (cold cache)");
 for (const [id, expect] of [["delivery", "Delivery"], ["returns", "Returns and cancellation"], ["warranty", "Faulty items"]]) {
   const cold = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await cold.newPage();
@@ -107,8 +129,8 @@ for (const [id, expect] of [["delivery", "Delivery"], ["returns", "Returns and c
   await cold.close();
 }
 
-/* 5 — token audit --------------------------------------------------------- */
-console.log("\n5. Rendered {{TOKEN}} audit");
+/* 6 — token audit --------------------------------------------------------- */
+console.log("\n6. Rendered {{TOKEN}} audit");
 const found = new Map();
 for (const p of ALL) {
   await page.goto(B + p, { waitUntil: "domcontentloaded" });

@@ -18,7 +18,7 @@ let CAT = null;
    pages still carry equivalent static markup as a no-JS fallback; this
    replacement runs before any header behavior is wired, so the live interface
    is identical everywhere and future chrome changes have one source. */
-const SHARED_HEADER_HTML = `<header class="hdr fashioni-header">
+const SHARED_HEADER_HTML = `<header class="hdr fashioni-header" data-shared-chrome="v2">
   <div class="topbar"><span class="topbar__long" data-announce-long>Fresh fashion · Easy discovery · Secure checkout</span><span class="topbar__short" data-announce-short>Fresh fashion · Secure checkout</span></div>
   <div class="wrap hdr__in fashioni-primary">
     <button class="header-search" type="button" data-open="search" aria-label="Search products"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>Search for products, brands and categories</span></button>
@@ -47,7 +47,9 @@ function initSharedChrome() {
   document.querySelector(".page")?.classList.add("fashioni-page");
 
   const header = document.querySelector("header.hdr,header.cohdr");
-  if (header) header.outerHTML = SHARED_HEADER_HTML;
+  if (header && header.dataset.sharedChrome !== "v2") {
+    header.outerHTML = SHARED_HEADER_HTML;
+  }
 
   const footer = document.querySelector("footer.ft");
   if (footer) footer.outerHTML = SHARED_FOOTER_HTML;
