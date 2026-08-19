@@ -52,7 +52,16 @@ while (head < tail) {
 }
 
 for (let pixel = 0; pixel < pixels; pixel += 1) {
-  if (seen[pixel]) data[pixel * 4 + 3] = 0;
+  const offset = pixel * 4;
+  if (seen[pixel]) data[offset + 3] = 0;
+  // Some commerce CDNs inspect or flatten the hidden RGB channels beneath
+  // fully transparent pixels. Clear those channels as well so a removed
+  // checkerboard cannot be resurrected during image optimisation.
+  if (data[offset + 3] === 0) {
+    data[offset] = 0;
+    data[offset + 1] = 0;
+    data[offset + 2] = 0;
+  }
 }
 
 await sharp(data, { raw: info }).png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(output);
