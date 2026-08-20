@@ -18,6 +18,8 @@ tmp/
 *.out.log
 *.tgz
 *.zip
+__pycache__/
+*.py[cod]
 dashboard-*.png
 delivery_upload_uri.txt
 node-*.log

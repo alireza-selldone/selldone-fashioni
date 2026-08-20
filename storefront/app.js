@@ -81,7 +81,6 @@ const SHARED_OVERLAYS_HTML = `<div class="drawer ink" role="dialog" aria-modal="
 <div class="scrim"></div>`;
 
 function initSharedChrome() {
-  document.querySelectorAll(".rail").forEach((rail) => rail.remove());
   document.querySelector(".page")?.classList.add("fashioni-page");
 
   const header = document.querySelector("header.hdr,header.cohdr");
@@ -381,18 +380,6 @@ function trapTab(e, panel) {
   const first = f[0], last = f[f.length - 1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-}
-
-function initRail() {
-  const m = document.querySelector(".rail__marker"), t = document.querySelector(".rail__ticks");
-  if (!m || !t) return;
-  const move = () => {
-    const max = document.body.scrollHeight - innerHeight;
-    m.style.top = ((max > 0 ? Math.min(1, scrollY / max) : 0) * (t.clientHeight - 2)) + "px";
-  };
-  move();
-  addEventListener("scroll", move, { passive: true });
-  addEventListener("resize", move);
 }
 
 function initReveal() {
@@ -801,7 +788,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   initThemePicker();
   fillBrandCopy();
   initHeader();
-  initRail();
   initReveal();
   initAcc();
   initDeepLink();

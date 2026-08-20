@@ -1,7 +1,7 @@
 /* Emit storefront/blog.html and storefront/article.html.
 
    Same reason build-pages.mjs exists: the chrome is lifted from index.html so
-   the header, footer, rail and drawers cannot drift away from the rest of the
+   the header, footer and drawers cannot drift away from the rest of the
    site. Run after changing index.html's chrome:  npm run build:pages
 */
 import { readFileSync, writeFileSync } from "node:fs";

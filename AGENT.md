@@ -103,3 +103,10 @@ This project is a fully static Selldone storefront plus browser-side dashboard. 
 - Do not commit `.env`, tokens, secrets, generated `dist/`, logs, temp files, local auth files, or browser profile folders.
 - When adding or deleting source files for this static package, stage the relevant source changes with git so they are not missed before deployment.
 - If a new Selldone API behavior or project convention is discovered and applied, update this file in the same change.
+
+## Reusable Fashioni V2 Starter
+
+- `starter.manifest.json` is the machine-readable design contract. Keep its required and forbidden markers aligned with the tracked storefront.
+- The reusable setup skill lives in `skills/setup-selldone-fashion-store/`; its bootstrap helper exports only Git-tracked files and records `.starter-provenance.json` in a new project.
+- `npm run setup` is the mandatory repoint step after cloning. For a different shop it rewrites the visible title-case identity and clears the previous domain, OAuth client, and audience mappings.
+- Do not reintroduce the fixed rail, tick ruler, progress ruler, or any page gutter reserved for them. The v2 starter intentionally has none of those artifacts in source or generated HTML.

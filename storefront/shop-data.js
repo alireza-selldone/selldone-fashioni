@@ -162,7 +162,7 @@ const URL_BLOG = (blogId) => `${SHOP.xapi}/shops/@${SHOP.handle}/blogs/${encodeU
 function blogImage(value) {
   try {
     const url = new URL(value, document.baseURI);
-    if (url.hostname === "fashioni.selldone.shop" && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    if (url.hostname === `${SHOP.handle}.selldone.shop` && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
       return `${url.pathname}${url.search}`;
     }
   } catch { /* preserve the API value below */ }

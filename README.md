@@ -23,6 +23,18 @@ npm run dev
 
 Open the local URL printed by the development server. Public configuration is in `shop.config.json`; it contains no secret.
 
+## Reuse as the Fashioni v2 starter
+
+The reusable Codex skill is tracked at [`skills/setup-selldone-fashion-store`](skills/setup-selldone-fashion-store). It clones the latest tracked `main`, verifies `starter.manifest.json`, excludes local/untracked files, and records the exact source commit before a new shop is configured.
+
+From the installed or downloaded skill directory:
+
+```bash
+python scripts/bootstrap_fashioni_starter.py <empty-project-directory>
+```
+
+Then run `npm install` and `npm run setup -- --shop-id <id> --handle <handle> --name <name> --domain <domain>`. Setup rewrites the visible Fashioni identity and clears the previous shop's domain, OAuth client, and audience mappings before the new storefront is built.
+
 ## Quality checks
 
 ```bash

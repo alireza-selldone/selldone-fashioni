@@ -2,7 +2,7 @@
 
    The Markdown is the source of truth and keeps its {{PLACEHOLDER}} tokens;
    this fills them and emits static HTML that shares index.html's chrome, so the
-   header, footer and rail can never drift away from the rest of the site.
+   header, footer and drawers cannot drift away from the rest of the site.
 
    Run after editing any store-pages/*.md:  npm run build:pages
 
@@ -154,8 +154,6 @@ for (const [slug, [eyebrow, desc]] of Object.entries(PAGES)) {
             </div>
           </div>
         </section>
-
-        <div class="wrap"><div class="tickrule"></div></div>
 
         <section class="section">
           <div class="wrap">

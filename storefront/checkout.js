@@ -38,7 +38,6 @@ async function init() {
     <p class="eyebrow eyebrow--blued">Secure hand-off</p>
     <h1 class="h2">Review your Fashioni bag</h1>
     <p class="lede">We will copy these exact products, quantities, colors, and sizes to your Selldone basket.</p>
-    <div class="tickrule" style="margin:24px 0"></div>
     <p class="cap">The next screen confirms live stock, delivery options, taxes, final total, and enabled payment methods. No payment is taken on this page.</p>
     <p class="cap" id="checkoutStatus" role="status"></p>
     <button class="btn btn--full" type="button" id="continueCheckout">Continue to Selldone checkout</button>

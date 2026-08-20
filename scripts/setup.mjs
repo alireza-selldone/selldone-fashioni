@@ -23,8 +23,8 @@
  *
  * Re-running is safe and is the intended workflow.
  */
-import { readFile, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { readFile, writeFile, readdir } from "node:fs/promises";
+import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -71,6 +71,55 @@ async function getJson(url) {
   const res = await fetch(url, { headers: { Accept: "application/json" } });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.json();
+}
+
+/* The Fashioni repository is also the maintained design starter. Repointing it
+   at another shop must remove the old visible identity from source as well as
+   changing API ids. Exact title-case replacement deliberately leaves internal
+   CSS classes and storage keys alone; those are implementation names, not
+   merchant-facing copy. */
+const escapeHtml = (value) => String(value)
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+
+function wordmark(name) {
+  const letters = escapeHtml(String(name || "Shop").toUpperCase());
+  return letters.length > 2
+    ? `${letters.slice(0, -2)}<span>${letters.slice(-2)}</span>`
+    : letters;
+}
+
+async function sourceFiles(dir) {
+  const out = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (entry.name === "assets") continue;
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...await sourceFiles(path));
+    else if ([".html", ".js", ".md"].includes(extname(entry.name))) out.push(path);
+  }
+  return out;
+}
+
+async function rebrandSource(oldName, newName) {
+  if (!oldName || !newName || oldName === newName) return 0;
+  const files = [
+    ...await sourceFiles(join(ROOT, "storefront")),
+    ...await sourceFiles(join(ROOT, "store-pages")),
+    join(ROOT, "scripts", "build-pages.mjs"),
+    join(ROOT, "scripts", "build-blog-pages.mjs"),
+  ];
+  const oldWordmark = wordmark(oldName);
+  const newWordmark = wordmark(newName);
+  let changed = 0;
+  for (const path of files) {
+    let text = await readFile(path, "utf8");
+    const next = text.replaceAll(oldWordmark, newWordmark).replaceAll(oldName, newName);
+    if (next === text) continue;
+    await writeFile(path, next, "utf8");
+    changed++;
+  }
+  return changed;
 }
 
 /* A product image that will read at hero size. Selldone product photography is
@@ -133,6 +182,8 @@ async function main() {
   // Only carry a blurb forward when the shop is unchanged. A blurb written for
   // one shop's collection is not a blurb for another's.
   const sameShop = Number(prior.shop?.id) === shopId;
+  const rebranded = await rebrandSource(prior.shop?.name, name);
+  if (rebranded) say(`  visible identity       rewritten in ${rebranded} source file(s)`);
 
   const counted = [...meta.entries()].map(([id, m]) => ({
     id: Number(id),
@@ -244,13 +295,22 @@ async function main() {
   const cfg = {
     $comment: prior.$comment ||
       "Every shop-specific value in one file. Written by `npm run setup`.",
-    shop: { id: shopId, handle, name, domain: domain || prior.shop?.domain || "" },
+    shop: { id: shopId, handle, name, domain: domain || (sameShop ? prior.shop?.domain : "") || "" },
     isTemplate: false,
-    oauth: prior.oauth || { clientId: "", appName: "" },
+    oauth: sameShop
+      ? {
+          clientId: A["oauth-client-id"] || prior.oauth?.clientId || "",
+          appName: A["oauth-app-name"] || prior.oauth?.appName || `${name} Storefront`,
+        }
+      : {
+          clientId: A["oauth-client-id"] || "",
+          appName: A["oauth-app-name"] || `${name} Storefront`,
+        },
     brand: sameShop
       ? prior.brand
       : { foundedYear: null, cities: null, tagline: null, announcement: null },
     categories,
+    audiences: sameShop ? (prior.audiences || []) : [],
     categoryHeroes,
     hero,
     spotlight: prior.spotlight || { mode: "highest-price" },
@@ -262,13 +322,13 @@ async function main() {
   /* ---- 5. propagate into the meta tags ---- */
   const META = {
     "shop-name": name,
+    "pajulina-app-name": cfg.oauth.appName || `${name} Storefront`,
+    "pajulina-client-id": cfg.oauth.clientId || "",
     "pajulina-shop-id": String(shopId),
     "pajulina-shop-name": name,
+    "pajulina-shop-domain": cfg.shop.domain || "",
     "pajulina-storefront-shop-handle": handle,
   };
-  if (cfg.shop.domain) META["pajulina-shop-domain"] = cfg.shop.domain;
-  if (cfg.oauth.clientId) META["pajulina-client-id"] = cfg.oauth.clientId;
-  if (cfg.oauth.appName) META["pajulina-app-name"] = cfg.oauth.appName;
 
   const files = ["storefront/index.html", "dashboard/index.html", "callback/index.html"];
   let rewritten = 0;
@@ -291,7 +351,6 @@ async function main() {
   }
 
   // The other storefront pages carry the same tags.
-  const { readdir } = await import("node:fs/promises");
   const pages = (await readdir(join(ROOT, "storefront")))
     .filter((f) => f.endsWith(".html") && f !== "index.html" && !f.startsWith("_"));
   for (const f of pages) {
@@ -342,6 +401,10 @@ async function main() {
   }
   if (!cfg.oauth.clientId) {
     say("  OAuth client id       not set. Customer sign-in will not work until it is.");
+  }
+  if (!cfg.audiences.length) {
+    say("  audience navigation   empty for this shop. Build Women, Men, Girls, Boys,");
+    say("                        and Baby mappings only where the live catalog supports them.");
   }
   say("  contact details       left as visible {{TOKEN}} placeholders on the policy");
   say("                        pages, which is the honest state until they are real.");

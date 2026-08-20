@@ -114,59 +114,13 @@ h1,h2,h3{margin:0;font-weight:400;}
 .ink .cap,.ink .ref{color:var(--mist);}
 .ink .eyebrow{color:var(--mist);}
 .ink .price s{color:var(--mist);}
-.ink .tier__range,.ink .rail__label,.ink .spectable th{color:var(--mist);}
+.ink .tier__range,.ink .spectable th{color:var(--mist);}
 /* The blued accent is too dark on graphite (2.19:1); the lift tone clears
    the 3:1 large-text threshold, and the footer wordmark is sized for it. */
 .ink .logo span{color:var(--blued-lift);}
 .ft .logo{font-size:26px;}
 
-/* Chapter-ring divider: minute markers, five-minute markers taller.
-   This is a real index, not decoration — it measures the page. */
-.tickrule{
-  height:14px;width:100%;
-  background-image:
-    repeating-linear-gradient(to right,var(--mist) 0 1px,transparent 1px 60px),
-    repeating-linear-gradient(to right,var(--rule) 0 1px,transparent 1px 12px);
-  background-size:100% 14px,100% 6px;
-  background-repeat:repeat-x;background-position:0 0,0 0;
-}
-.ink .tickrule{
-  background-image:
-    repeating-linear-gradient(to right,var(--slate) 0 1px,transparent 1px 60px),
-    repeating-linear-gradient(to right,var(--rule-dark) 0 1px,transparent 1px 12px);
-}
-
-/* ---------- Signature: the index rail ----------
-   A fixed chapter ring down the left edge that doubles as scroll progress. */
-.rail{
-  position:fixed;left:0;top:0;bottom:0;width:var(--rail);z-index:60;
-  border-right:1px solid var(--rule);background:var(--dial);
-  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  padding:20px 0;pointer-events:none;
-}
-.rail__ticks{
-  flex:1;width:100%;margin:16px 0;
-  background-image:
-    repeating-linear-gradient(to bottom,var(--whisper) 0 1px,transparent 1px 60px),
-    repeating-linear-gradient(to bottom,var(--rule) 0 1px,transparent 1px 12px);
-  background-size:14px 100%,8px 100%;
-  background-repeat:repeat-y;background-position:center 0,center 0;
-  position:relative;
-}
-.rail__marker{
-  position:absolute;left:50%;transform:translateX(-50%);
-  width:26px;height:2px;background:var(--blued);top:0;
-  transition:top 120ms linear;
-}
-.rail__label{
-  font-family:var(--data);font-size:10px;letter-spacing:.24em;color:var(--mist-text);
-  writing-mode:vertical-rl;text-orientation:mixed;
-}
-@media (max-width:1023px){ .rail{display:none;} }
-.page{margin-left:var(--rail);}
-/* The rail is a hard vertical edge. --pad alone left content sitting right up
-   against it, so add a dedicated gutter wherever the rail is showing. */
-@media (min-width:1024px){ .page{padding-left:32px;} }
+.page{margin-left:0;padding-left:0;}
 
 /* ---------- Header ---------- */
 .topbar{
@@ -1540,7 +1494,6 @@ html[data-theme="rose"]{
 
 body{background:var(--dial);color:var(--graphite);font-size:15px;}
 .page,.fashioni-page{margin-left:0;padding-left:0;}
-.rail{display:none!important;}
 .wrap{width:100%;}
 h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-spacing:-.035em;}
 .section{padding:clamp(58px,7vw,96px) 0;}

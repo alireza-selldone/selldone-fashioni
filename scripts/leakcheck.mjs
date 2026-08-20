@@ -88,7 +88,7 @@ const planted = [
   'const CAT_SLUG = { 37955: "mens-classic" };',
   'const hero = byId(cat, 709403);',
   '<p>Fine watches, sold by people who repair them. Zürich and London.</p>',
-  '<span class="rail__label">EST. 1946</span>',
+  '<span>EST. 1946</span>',
 ];
 const caught = planted.filter((line) => PATTERNS.some(([, re]) => re.test(line)));
 caught.length === planted.length

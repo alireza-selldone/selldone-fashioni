@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "starterVersion": 2,
+  "id": "selldone-fashion-storefront-fashioni-v2",
+  "repository": "https://github.com/alireza-selldone/selldone-fashioni.git",
+  "branch": "main",
+  "requiredDesignMarkers": [
+    "storefront/index.html::best-seller-section",
+    "storefront/app.js::sale-countdown",
+    "storefront/product.js::size-guide-sheet",
+    "storefront/home.js::bestSellerCardHTML",
+    "storefront/styles.css::best-seller-track"
+  ],
+  "forbiddenDesignMarkers": [
+    "class=\"rail",
+    "class=\"tickrule",
+    ".rail{",
+    ".tickrule{"
+  ]
+}
