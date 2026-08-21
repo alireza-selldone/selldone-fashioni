@@ -62,6 +62,9 @@ The manifest and source must prove at least these behaviors exist:
 - a responsive size-guide bottom sheet;
 - mouse-drag and touch-swipe merchandising rails;
 - a compact shared header without first-paint layout swapping;
+- a centered primary navigation group beginning with All Products, without a Shop by Product top-level item;
+- a live Brands hover/focus menu and searchable A–Z directory whose links open truly filtered listings;
+- taxonomy guards that keep UI headings out of Selldone categories and reject hierarchy cycles;
 - no fixed ruler, tick ruler, progress rail, or reserved side gutter.
 
 If any marker is absent, stop the bootstrap and update from the starter. Do not compensate by claiming the checklist is complete.

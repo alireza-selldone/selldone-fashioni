@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contact Fashioni — Fashioni</title>
+    <title>Shop by brand — Fashioni</title>
     <meta name="description" content="Shop Fashioni apparel, activewear, footwear, sunglasses, and accessories." />
     <meta name="shop-name" content="Fashioni" />
     <meta name="pajulina-app-name" content="Fashioni Storefront" />
@@ -26,7 +26,8 @@
     <link rel="preconnect" href="https://cdn.selldone.com" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
-  </head>
+      <script type="module" src="brands.js"></script>
+</head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <div class="page fashioni-page">
@@ -46,29 +47,33 @@
         <div class="fashioni-navrow"><nav class="nav audience-nav" aria-label="Main"><a href="shop.html">All Products</a><a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="brands.html" data-nav-brands>Brands</a></nav><div class="mega"><div class="mega__grid" id="megagrid"></div></div></div>
       </header>
 
-      <main id="main" tabindex="-1">
+      <main id="main" tabindex="-1" class="brand-page">
 
-        <section class="pghead ink">
-          <div class="wrap">
-            <div class="pgcol">
-              <p class="eyebrow eyebrow--onink">Client care</p>
-              <h1 class="h1">Contact Fashioni</h1>
-            </div>
+        <section class="brand-head">
+          <div class="wrap brand-head__inner">
+            <p class="eyebrow">Discover</p>
+            <h1>Shop by brand</h1>
+            <p class="lede" data-brand-summary>Loading the brand directory…</p>
+            <label class="brand-search">
+              <span class="sr">Search brands</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+              <input type="search" autocomplete="off" placeholder="Search brands" data-brand-search>
+            </label>
           </div>
         </section>
 
-        <section class="section">
+        <section class="section brand-section" id="featured" aria-labelledby="featured-title">
           <div class="wrap">
-            <article class="prose">
-          <h2>Order help</h2>
-          <p>For an existing order, sign in with the Selldone customer account used at checkout and open the order record. This keeps the request connected to the correct customer and transaction.</p>
-          <p>Include the order number, the product and selected variant, and a concise description of the question. If an item appears damaged or different from the listing, keep the packaging and attach clear photographs through the available order-support flow.</p>
-          <h2>Product questions</h2>
-          <p>Product pages show the currently available colors, sizes, stock, price, and published specifications. When material, care, fit, or measurements are not shown, do not infer them from the photograph; ask the merchant for product-specific confirmation before ordering.</p>
-          <h2>Public merchant contact</h2>
-          <p>The merchant has not yet supplied a verified public email address, telephone number, postal address, opening hours, or response-time commitment. This page intentionally does not invent those details.</p>
-          <p>Once verified details are available, they should be added here and to the Selldone business profile. Until then, use the authenticated account and order tools for transaction-related support.</p>
-            </article>
+            <div class="brand-section__head"><div><p class="eyebrow">Start here</p><h2 id="featured-title">Popular brands</h2></div><a href="#all-brands">View all brands</a></div>
+            <div class="brand-featured" data-featured-brands aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="section brand-section brand-section--directory" id="all-brands" aria-labelledby="directory-title">
+          <div class="wrap">
+            <div class="brand-section__head"><div><p class="eyebrow">Directory</p><h2 id="directory-title">All brands</h2></div><p class="cap" data-brand-status aria-live="polite"></p></div>
+            <nav class="brand-alphabet" data-brand-alphabet aria-label="Brand alphabet"></nav>
+            <div class="brand-directory" data-brand-directory></div>
           </div>
         </section>
 

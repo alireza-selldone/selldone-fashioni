@@ -68,7 +68,7 @@ const SHARED_HEADER_HTML = `<header class="hdr fashioni-header" data-shared-chro
     </div></div>
   </div>
   <div class="fashioni-navrow"><nav class="nav audience-nav" aria-label="Main">
-    <a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="shop.html">Shop by product</a><a href="shop.html?view=brands">Brands</a>
+    <a href="shop.html">All Products</a><a href="shop.html?audience=girls">Girls</a><a href="shop.html?audience=boys">Boys</a><a href="shop.html?audience=baby">Baby</a><a href="shop.html?audience=women">Women</a><a href="shop.html?audience=men">Men</a><a href="brands.html" data-nav-brands>Brands</a>
   </nav><div class="mega"><div class="mega__grid" id="megagrid"></div></div></div>
 </header>`;
 
@@ -431,11 +431,45 @@ function fillNav() {
         <img src="${a.image}" alt="${esc(a.title)} fashion" loading="lazy" width="220" height="220">
         <b>${esc(a.title)}</b>
       </a>`).join("");
-    mega.innerHTML = `
+    const catalogueMenu = `
       <div class="mega__column"><b>Shop by department</b>${audienceLinks}</div>
-      <div class="mega__column"><b>Shop by product</b>${categoryLinks}</div>
+      <div class="mega__column"><b>Shop by category</b>${categoryLinks}</div>
       <div class="mega__column"><b>Popular brands</b>${brandLinks}</div>
       <div class="mega__visuals">${visualLinks}</div>`;
+
+    const popular = CAT.brands.slice(0, 12);
+    const brandColumn = (items, title) => `<div class="mega__column"><b>${title}</b>${items.map((brand) =>
+      `<a href="shop.html?brand=${encodeURIComponent(brand.name)}">${esc(brand.name)} <small>${brand.count}</small></a>`).join("")}</div>`;
+    const brandVisuals = popular.slice(0, 3).map((brand) => {
+      const product = CAT.products.find((item) => item.brand === brand.name);
+      return `<a class="mega__visual" href="shop.html?brand=${encodeURIComponent(brand.name)}">
+        ${product ? `<img src="${esc(product.image)}" alt="${esc(brand.name)} product" width="220" height="220">` : ""}
+        <b>${esc(brand.name)}</b><small>${brand.count} products</small>
+      </a>`;
+    }).join("");
+    const brandMenu = `
+      <div class="mega__column mega__intro"><b>Shop brands</b>
+        <a href="brands.html"><strong>All ${CAT.brands.length} brands</strong></a>
+        <a href="brands.html#featured">Popular brands</a>
+        <a href="brands.html#all-brands">A–Z directory</a>
+        <small>${CAT.products.filter((product) => product.brand).length} branded products</small>
+      </div>
+      ${brandColumn(popular.slice(0, 6), "Most products")}
+      ${brandColumn(popular.slice(6, 12), "More brands")}
+      <div class="mega__visuals">${brandVisuals}</div>`;
+
+    const showMenu = (mode) => {
+      const brands = mode === "brands";
+      mega.innerHTML = brands ? brandMenu : catalogueMenu;
+      mega.closest(".mega")?.classList.toggle("mega--brands", brands);
+    };
+    showMenu("catalogue");
+
+    mega.closest(".fashioni-navrow")?.querySelectorAll(".audience-nav a").forEach((link) => {
+      const mode = link.hasAttribute("data-nav-brands") ? "brands" : "catalogue";
+      link.addEventListener("pointerenter", () => showMenu(mode));
+      link.addEventListener("focus", () => showMenu(mode));
+    });
   }
 
   document.querySelectorAll("[data-collections]").forEach((ul) => {
@@ -448,12 +482,12 @@ function fillNav() {
 
   document.querySelectorAll("[data-drawer-nav]").forEach((nav) => {
     nav.innerHTML =
+      `<a href="shop.html">All Products<small>${CAT.products.length} products</small></a>` +
       (CAT.audiences || []).map((a) =>
-        `<a href="shop.html?audience=${a.slug}">${esc(a.title)}<small>${a.count} products</small></a>`).join("") +
-      `<a href="shop.html">Shop by product<small>${CAT.cats.length} categories · ${CAT.products.length} products</small></a>` +
+      `<a href="shop.html?audience=${a.slug}">${esc(a.title)}<small>${a.count} products</small></a>`).join("") +
       CAT.cats.map((c) =>
         `<a href="shop.html?cat=${c.slug}">${esc(c.name)}<small>${c.count} products · from ${money(c.from)}</small></a>`).join("") +
-      `<a href="shop.html?view=brands">Brands<small>${CAT.brands.length} brands</small></a>` +
+      `<a href="brands.html">Brands<small>${CAT.brands.length} brands</small></a>` +
       `<a href="/contact-us">Customer support</a>`;
   });
 }

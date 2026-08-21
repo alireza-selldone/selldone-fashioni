@@ -21,11 +21,16 @@ Use this checklist twice: first to scope the work, then against the deployed pro
 ## 2. Taxonomy and catalog integrity
 
 - [ ] Category names are human-readable and redundant categories were merged or nested.
+- [ ] `All Products`, `Shop by category`, and `Shop by product` exist only as UI copy and were not created as Selldone categories.
 - [ ] Products use appropriate audience/age and product-type classifications when the catalog supports both.
+- [ ] Every product has exactly one real product-type main category; audience assignments are shortcut categories, not hierarchy wrappers.
 - [ ] Women, Men, Girls, Boys, and Baby are used only when relevant; Baby covers under 24 months.
 - [ ] Baby Girls and Baby Boys are nested beneath Baby when inventory justifies them.
+- [ ] A live hierarchy read-back proves there is no self-parenting, parent cycle, duplicate wrapper, or empty navigation-label category.
 - [ ] Multi-category or shortcut-category assignments are stored in Selldone rather than simulated only in navigation.
 - [ ] Brands navigation is shown only when meaningful brand data exists.
+- [ ] Brands hover/focus content, A–Z directory, search, counts, and representative images come from live catalogue data.
+- [ ] Clicking each exposed brand opens a correctly titled listing containing only products assigned to that brand.
 - [ ] Empty or misleading categories are not exposed.
 - [ ] Product titles, descriptions, brands, prices, currency, materials, care, fit, weight, shipping facts, and policies come from live data or are clearly labeled demo data.
 - [ ] Physical products have valid SKUs and usable inventory records.

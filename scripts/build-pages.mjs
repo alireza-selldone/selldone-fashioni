@@ -169,3 +169,44 @@ ${body}
   writeFileSync(join(OUT, `${slug}.html`), out);
   console.log(`  ${slug}.html`.padEnd(20) + `${out.length.toLocaleString().padStart(7)} bytes   unfilled tokens: ${(out.match(/class="tok"/g) || []).length}`);
 }
+
+/* Brands is data-driven rather than Markdown-driven, but it uses the exact same
+   generated chrome. The directory works for a one-brand merchant or a large
+   catalogue without baking Fashioni's current brand names into the page. */
+const brandsHead = `${head
+  .replace(/<title>.*?<\/title>/, `<title>Shop by brand — ${TOKENS.SHOP_NAME || ""}</title>`)
+  .replace(/(name="description"\s*\n\s*content=)"[^"]*"/, `$1"Browse every brand available at ${TOKENS.SHOP_NAME || "this store"}."`)}    <script type="module" src="brands.js"></script>\n`;
+const brandsMain = `<main id="main" tabindex="-1" class="brand-page">
+
+        <section class="brand-head">
+          <div class="wrap brand-head__inner">
+            <p class="eyebrow">Discover</p>
+            <h1>Shop by brand</h1>
+            <p class="lede" data-brand-summary>Loading the brand directory…</p>
+            <label class="brand-search">
+              <span class="sr">Search brands</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+              <input type="search" autocomplete="off" placeholder="Search brands" data-brand-search>
+            </label>
+          </div>
+        </section>
+
+        <section class="section brand-section" id="featured" aria-labelledby="featured-title">
+          <div class="wrap">
+            <div class="brand-section__head"><div><p class="eyebrow">Start here</p><h2 id="featured-title">Popular brands</h2></div><a href="#all-brands">View all brands</a></div>
+            <div class="brand-featured" data-featured-brands aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="section brand-section brand-section--directory" id="all-brands" aria-labelledby="directory-title">
+          <div class="wrap">
+            <div class="brand-section__head"><div><p class="eyebrow">Directory</p><h2 id="directory-title">All brands</h2></div><p class="cap" data-brand-status aria-live="polite"></p></div>
+            <nav class="brand-alphabet" data-brand-alphabet aria-label="Brand alphabet"></nav>
+            <div class="brand-directory" data-brand-directory></div>
+          </div>
+        </section>
+
+`;
+const brandsOut = `<!doctype html>\n<html lang="en">\n${brandsHead}</head>\n${top}${brandsMain}${tail}`;
+writeFileSync(join(OUT, "brands.html"), brandsOut);
+console.log(`  ${"brands.html".padEnd(18)}${brandsOut.length.toLocaleString().padStart(7)} bytes   live brand data`);

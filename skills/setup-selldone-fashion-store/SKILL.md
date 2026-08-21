@@ -95,15 +95,17 @@ For a non-empty project, do not run the empty-directory helper over existing fil
 ## Phase 4 — Build a compact professional taxonomy
 
 1. Preserve valid categories and normalize human-readable titles.
-2. Use two complementary dimensions where the catalog supports them:
+2. Treat `All Products`, `Shop by category`, and `Shop by product` as UI copy only. Never materialize a navigation heading as a Selldone category or hierarchy wrapper.
+3. Use two complementary dimensions where the catalog supports them:
    - audience or age: Women, Men, Girls, Boys, Baby;
    - product type: Tops, Dresses, Trousers, Footwear, Accessories, and other relevant types.
-3. Assign products to both relevant dimensions through Selldone categories or shortcut categories. Baby means under 24 months; use Baby Girls and Baby Boys beneath Baby when stock justifies them.
-4. Merge redundant categories and nest narrow groups. Do not expose a flat, repetitive mega-list.
-5. Add Brands navigation only when brand data is meaningful.
-6. Fill obvious demo gaps with coherent products rather than arbitrary volume. Use the physical-product builder for every created item.
-7. Ensure accurate title, brand, category, description, commercial data, SKU, physical inventory, material, care, fit, sizes, colors, weight, and shipping facts when available.
-8. Reuse shared specification schemas for comparable products.
+4. Give every product exactly one real product-type main category, plus relevant audience shortcut categories. Audience roots must not become parents of product-type categories. Baby means under 24 months; Baby Girls and Baby Boys are the only audience children and live beneath Baby when stock justifies them.
+5. Before mutation, reject self-parenting, parent cycles, duplicate wrappers, and names that are only navigation copy. After mutation, read back the hierarchy and product counts to prove the same invariants hold.
+6. Merge redundant categories and nest narrow groups. Do not expose a flat, repetitive mega-list.
+7. Add Brands navigation only when brand data is meaningful. When exposed, build its hover/focus menu and directory from live brand values, counts, and representative product media; clicking a brand must open a genuinely prefiltered listing rather than an All Products alias.
+8. Fill obvious demo gaps with coherent products rather than arbitrary volume. Use the physical-product builder for every created item.
+9. Ensure accurate title, brand, category, description, commercial data, SKU, physical inventory, material, care, fit, sizes, colors, weight, and shipping facts when available.
+10. Reuse shared specification schemas for comparable products.
 
 ## Phase 5 — Make imagery and variants truthful
 

@@ -27,7 +27,8 @@ const PAGES = [["home","/","#catgrid .cat"],["shop","/shop.html","#pgrid .pcard"
                 ["about","/about-us",".prose"],["terms","/terms",".prose"],
                 ["privacy","/privacy",".prose"],["contact","/contact-us",".prose"],
                 ["blog","/blog",".post"],
-                ["article","/article.html?id=31667","[data-article-body] p"]];
+                ["article","/article.html?id=31667","[data-article-body] p"],
+                ["brands","/brands.html",".brand-directory a"]];
 
 const b = await chromium.launch();
 const ctx = await b.newContext({ viewport:{width:1440,height:900} });

@@ -15,6 +15,14 @@ On 18 August 2026 the original 22 flat folders were consolidated into eight cust
 
 Discovery is deliberately dual-axis. Every applicable product keeps its product-type category and also receives one or more audience shortcuts: Women, Men, Girls, Boys, or Baby. Baby further divides into Baby Girls and Baby Boys. This avoids duplicate products while supporting both “what is it?” and “who is it for?” navigation.
 
+The eight product-type collections are roots, and the five audience entries are root shortcuts. Baby Girls and Baby Boys are the only audience children and live beneath Baby. `All Products`, `Shop by category`, and the retired `Shop by Product` label are presentation copy only; none is a Selldone category or hierarchy wrapper. Taxonomy writes must be checked for self-parenting and cycles before mutation, then verified from the live hierarchy afterward.
+
+## Header navigation
+
+The primary desktop navigation is centered as one compact group. `All Products` is the first item, followed by Girls, Boys, Baby, Women, Men, and Brands. The former `Shop by Product` top-level item was removed because it duplicated the product listing and could be mistaken for a catalogue category. Product-type links remain available under the presentation heading `Shop by category` and in listing filters; mobile keeps the same information order in its drawer.
+
+Brands is a real discovery route rather than an alias for All Products. Hover/focus opens a compact menu generated from the brands with the highest live product counts and representative catalogue imagery. Clicking Brands opens a reusable A–Z directory with search, live counts, and popular-brand cards; selecting any brand lands on a listing titled for that brand and prefiltered to its products. No editorial brand category or separate image set is required.
+
 ## Fashion references reviewed
 
 Reviewed on 18 August 2026:

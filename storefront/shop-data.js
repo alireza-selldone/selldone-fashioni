@@ -11,6 +11,7 @@
 import { getPublicConfig } from "../shared/runtime-config.js";
 import { shopConfig, slugify } from "./shop-config.js";
 import { selldoneImagePathToUrl } from "../dashboard/features/selldone-images.js";
+import { variantSizeOptions } from "./variant-options.js";
 
 const cfg = getPublicConfig();
 
@@ -554,11 +555,10 @@ export async function loadCatalog() {
       .filter(Number.isFinite);
     const shortcutIds = shortcutIdsFromApi.length ? shortcutIdsFromApi : mirroredAudienceIds(p.id);
     const variants = variantsOf(p);
-    const sizes = [...new Set(variants.flatMap((variant) =>
-      [variant.type, variant.style, variant.volume, variant.weight, variant.pack]
-        .filter((value) => value !== null && value !== undefined && String(value).trim() !== "")
-        .map(String)
-    ))];
+    /* A storage field can contain a size, material slug, or legacy token. Only
+       the consistently size-shaped dimension is exposed to listing filters. */
+    const stockedVariants = variants.filter((variant) => variant.qty > 0);
+    const { values: sizes } = variantSizeOptions(stockedVariants.length ? stockedVariants : variants);
     return {
       id: p.id,
       name: p.title,

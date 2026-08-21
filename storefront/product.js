@@ -6,6 +6,7 @@ import {
   variantsOf, swatchStyle, swatchLabel, isComposite,
   addToBag,
 } from "./shop-data.js";
+import { variantSizeOptions, variantSizeValue } from "./variant-options.js";
 import { cardHTML, esc, initAcc, openLightbox, saleBadgeHTML } from "./app.js";
 
 /* Spec keys worth surfacing, in reading order. Only those the record actually
@@ -120,9 +121,7 @@ async function initPDP(cat) {
 
   /* Every variant the shop defines, not a filtered subset. */
   const variants = variantsOf(p.raw);
-  const optionFields = ["volume", "style", "type", "weight", "pack"];
-  const sizeField = optionFields.find((field) => variants.some((v) => v[field])) || null;
-  const sizeValues = sizeField ? [...new Set(variants.map((v) => v[sizeField]).filter(Boolean))] : [];
+  const { field: sizeField, values: sizeValues } = variantSizeOptions(variants);
   const colorGroups = new Map();
   /* Size-only products must not be presented as though every size were a
      separate color. Keep color groups empty unless Selldone records an actual
@@ -139,7 +138,7 @@ async function initPDP(cat) {
   const requestedVariantId = Number(new URLSearchParams(location.search).get("variant") || 0);
   let selectedVariant = variants.find((v) => Number(v.id) === requestedVariantId) || variants[0] || null;
   let selectedColorKey = selectedVariant?.color ? String(selectedVariant.color).toUpperCase() : (selectedVariant ? `variant-${selectedVariant.id}` : "");
-  let selectedSize = sizeField ? selectedVariant?.[sizeField] || sizeValues[0] || "" : "";
+  let selectedSize = sizeField ? variantSizeValue(selectedVariant, sizeField) || sizeValues[0] || "" : "";
   const showSwatches = hasColorOptions && colors.length > 0;
   /* A variant's own price/stock when it sets one, the product's otherwise. */
   const priceOf = (v) => (v && v.price > 0 ? v.price - (v.discount || 0) : p.price);
@@ -313,7 +312,7 @@ async function initPDP(cat) {
       if (!variant) return;
       selectedVariant = variant;
       selectedColorKey = variant.color ? String(variant.color).toUpperCase() : `variant-${variant.id}`;
-      if (sizeField && variant[sizeField]) selectedSize = variant[sizeField];
+      if (sizeField && variant[sizeField]) selectedSize = variantSizeValue(variant, sizeField) || selectedSize;
       root.querySelectorAll(".sw").forEach((sw) => {
         const on = sw.dataset.colorKey === selectedColorKey;
         sw.classList.toggle("is-on", on);
@@ -343,14 +342,14 @@ async function initPDP(cat) {
 
   root.querySelectorAll(".sw").forEach((sw) => sw.addEventListener("click", () => {
     const rows = colorGroups.get(sw.dataset.colorKey) || [];
-    const next = (sizeField && selectedSize ? rows.find((v) => v[sizeField] === selectedSize) : null) || rows[0];
+    const next = (sizeField && selectedSize ? rows.find((v) => variantSizeValue(v, sizeField) === selectedSize) : null) || rows[0];
     selectVariant(next);
   }));
   root.querySelectorAll(".sizeopt").forEach((button) => button.addEventListener("click", () => {
     selectedSize = button.dataset.size;
     const sameColorRows = colorGroups.get(selectedColorKey) || [];
-    const next = sameColorRows.find((v) => v[sizeField] === selectedSize)
-      || variants.find((v) => v[sizeField] === selectedSize)
+    const next = sameColorRows.find((v) => variantSizeValue(v, sizeField) === selectedSize)
+      || variants.find((v) => variantSizeValue(v, sizeField) === selectedSize)
       || selectedVariant;
     selectVariant(next);
   }));

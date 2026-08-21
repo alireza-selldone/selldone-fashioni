@@ -33,6 +33,16 @@ This project is a fully static Selldone storefront plus browser-side dashboard. 
   and the indirection hid which XAPI call a feature actually made. Do not reintroduce it.
 - Storefront search is client-side over the catalogue already in memory, matching the
   reference app. 35 references do not justify a network round-trip per keystroke.
+- Selldone variant storage fields are not reliable presentation categories: legacy
+  products can put material/color slugs in `type` or `style`. Use the shared
+  `storefront/variant-options.js` classifier for Size; keep Color sourced only from
+  `variant.color`, and never flatten every variant field into a size list.
+- Treat navigation labels as presentation, never as catalogue structure. `All Products`,
+  `Shop by category`, and `Shop by product` must not be created as Selldone categories.
+  Each product keeps exactly one real product-type main category; Women, Men, Girls,
+  Boys, and Baby are audience shortcuts, with Baby Girls and Baby Boys only beneath
+  Baby. Before and after taxonomy writes, reject self-parenting, parent cycles, duplicate
+  wrappers, and empty or misleading navigation categories.
 - Storefront customer identity comes from `storefrontAuth.session()`, which reads
   XAPI `/me` for the storefront context — never `api.selldone.com`.
 - Storefront order history is physical-only and loads from XAPI `GET /shops/@{shop}/basket/orders-PHYSICAL` with the `order-history` scope.

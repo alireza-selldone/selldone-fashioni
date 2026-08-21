@@ -1834,11 +1834,11 @@ body{background:var(--dial);color:var(--graphite);}
 .iconbtn{width:48px;height:48px;display:grid!important;place-items:center;}.iconbtn svg{width:25px;height:25px;fill:none;stroke:#111;stroke-width:1.55;}
 .header-checkout{height:44px!important;padding:0 16px;background:#171717;color:#fff!important;border-radius:3px;text-transform:uppercase;font-size:11px;font-weight:750;letter-spacing:.07em;}
 .fashioni-navrow{display:block!important;position:relative;border:0!important;border-bottom:1px solid #dedede!important;background:#fff!important;}
-.fashioni-navrow .nav{height:46px!important;display:flex;justify-content:space-between!important;gap:24px!important;max-width:1540px;margin:auto;padding:0 var(--pad);overflow:visible!important;}
+.fashioni-navrow .nav{height:46px!important;display:flex;justify-content:center!important;gap:clamp(30px,4vw,64px)!important;width:max-content;max-width:calc(100% - 2 * var(--pad));margin:auto;padding:0 24px;overflow:visible!important;}
 .fashioni-navrow .nav a{position:relative;min-width:44px!important;height:46px;font-size:14px!important;font-weight:700!important;letter-spacing:.08em;text-transform:uppercase;}
 .fashioni-navrow .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#111;transform:scaleX(0);transition:transform .18s;}
 .fashioni-navrow .nav a:hover::after,.fashioni-navrow .nav a:focus-visible::after{transform:scaleX(1);}
-.mega{display:none;position:absolute;left:0;right:0;top:46px;z-index:72;padding:28px 0 34px;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #bbb;box-shadow:0 16px 32px rgba(0,0,0,.09);}
+.mega{display:none;position:absolute;left:0;right:0;top:46px;z-index:72;padding:28px 0 34px;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #bbb;box-shadow:0 16px 32px rgba(0,0,0,.09);opacity:1;visibility:visible;transform:none;}
 .fashioni-navrow:focus-within .mega,.fashioni-navrow:hover .mega{display:block;}
 .mega__grid{width:min(calc(100% - 2 * var(--pad)),1540px);margin:auto;display:grid;grid-template-columns:1fr 1.25fr 1fr 2.25fr;gap:38px;}
 .mega__column{display:flex;flex-direction:column;align-items:flex-start;gap:7px;}
@@ -1846,6 +1846,43 @@ body{background:var(--dial);color:var(--graphite);}
 .mega__visuals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
 .mega__visual{min-width:0!important;display:block!important;text-align:center;font-size:13px!important;}
 .mega__visual img{display:block;width:100%;aspect-ratio:1;object-fit:contain;padding:12%;margin-bottom:9px;background:#f5f5f3;}
+.mega__visual small{display:block;margin-top:4px;color:#777;font-size:11px;}
+.mega__intro strong{font-size:14px;}.mega__intro>small{margin-top:12px;line-height:1.5;color:#777;}
+
+/* A reusable, catalogue-driven brand directory. Product imagery is reused as
+   truthful brand artwork, so stores do not need a second editorial asset set. */
+.brand-page{background:#f7f7f5;}
+.brand-head{padding:72px 0 64px;background:#fff;border-bottom:1px solid var(--rule);text-align:center;}
+.brand-head__inner{display:flex;flex-direction:column;align-items:center;}
+.brand-head h1{margin:7px 0 12px;font-family:var(--display);font-size:clamp(42px,5vw,74px);font-weight:400;letter-spacing:-.035em;line-height:.95;}
+.brand-head .lede{margin:0;color:#666;}
+.brand-search{width:min(100%,560px);height:54px;margin-top:30px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#f1f1ef;border:1px solid transparent;transition:border-color .18s,background .18s;}
+.brand-search:focus-within{background:#fff;border-color:#111;}
+.brand-search svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;}
+.brand-search input{width:100%;height:100%;border:0;outline:0;background:transparent;font:inherit;font-size:16px;}
+.brand-section{padding-top:64px;padding-bottom:68px;}
+.brand-section--directory{padding-top:8px;}
+.brand-section__head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px;}
+.brand-section__head .eyebrow{margin-bottom:6px;}.brand-section__head h2{font-family:var(--display);font-size:clamp(29px,3vw,42px);font-weight:400;line-height:1;}
+.brand-section__head>a{min-height:44px;display:flex;align-items:center;font-size:13px;text-decoration:underline;text-underline-offset:4px;}
+.brand-featured{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+.brand-feature{min-width:0;background:#fff;border:1px solid var(--rule);transition:transform .18s,box-shadow .18s;}
+.brand-feature:hover,.brand-feature:focus-visible{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.08);}
+.brand-feature__art{display:block;aspect-ratio:1;background:#efefed;overflow:hidden;}
+.brand-feature__art img{width:100%;height:100%;object-fit:contain;padding:8%;}
+.brand-feature__copy{display:flex;flex-direction:column;gap:5px;padding:17px 18px 19px;}
+.brand-feature__copy strong{font-size:17px;}.brand-feature__copy small{color:#707070;font-size:12px;}
+.brand-alphabet{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 30px;}
+.brand-alphabet a{width:44px;height:44px;display:grid;place-items:center;border:1px solid #cfcfcb;background:#fff;font-size:13px;font-weight:700;}
+.brand-alphabet a:hover,.brand-alphabet a:focus-visible{background:#111;color:#fff;border-color:#111;}
+.brand-directory{columns:4;column-gap:14px;}
+.brand-group{display:inline-block;width:100%;margin:0 0 14px;break-inside:avoid;scroll-margin-top:24px;background:#fff;border-top:3px solid #111;padding:20px 20px 14px;}
+.brand-group h2{margin-bottom:12px;font-family:var(--display);font-size:30px;font-weight:400;}
+.brand-group__links{display:flex;flex-direction:column;}
+.brand-group__links a{min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid #ececea;font-size:14px;}
+.brand-group__links a span{overflow:hidden;text-overflow:ellipsis;}.brand-group__links a small{flex:0 0 auto;color:#666;font-size:11px;}
+.brand-group__links a:hover span,.brand-group__links a:focus-visible span{text-decoration:underline;text-underline-offset:3px;}
+.brand-empty{column-span:all;padding:56px;background:#fff;text-align:center;}.brand-empty h2{font-family:var(--display);font-size:32px;font-weight:400;}.brand-empty p{margin:8px 0 22px;color:#666;}
 
 /* Full-width, image-led homepage sections with symmetric edges. */
 .fashioni-page main{width:100%;}.campaign-hero{border-radius:0!important;}
@@ -1912,6 +1949,7 @@ body{background:var(--dial);color:var(--graphite);}
 
 @media (max-width:1100px){
   .fashioni-primary{grid-template-columns:minmax(220px,1fr) auto minmax(220px,1fr)!important;}.header-checkout{display:none!important;}.mega__grid{grid-template-columns:1fr 1fr 1fr;}.mega__visuals{display:none;}.pgrid{grid-template-columns:repeat(3,minmax(0,1fr));}.filters{grid-template-columns:repeat(3,minmax(150px,1fr));}.product-main .pdp{grid-template-columns:1.15fr .85fr!important;}
+  .brand-featured{grid-template-columns:repeat(2,minmax(0,1fr));}.brand-directory{columns:2;}
 }
 @media (max-width:760px){
   :root{--pad:14px;}.fashioni-header .topbar{height:30px;font-size:10px;}.fashioni-primary{height:60px!important;grid-template-columns:48px 1fr auto!important;gap:4px!important;padding:0 8px;}.header-search{width:44px!important;height:44px!important;padding:0!important;background:#fff;}.header-search span{display:none;}.header-search svg{order:0;margin:auto;width:21px;height:21px;}.fashioni-logo{font-size:22px!important;letter-spacing:.16em!important;}.hdr__act{gap:0;}.iconbtn{width:42px!important;height:44px!important;}.header-checkout{display:none!important;}.fashioni-navrow{display:block!important;}.fashioni-navrow .nav{height:46px!important;justify-content:flex-start!important;gap:25px!important;padding:0 15px;overflow-x:auto!important;scrollbar-width:none;}.fashioni-navrow .nav a{height:46px!important;font-size:12px!important;flex:0 0 auto;}.mega{display:none!important;}
@@ -1922,6 +1960,7 @@ body{background:var(--dial);color:var(--graphite);}
   .shop-main .crumb{padding:10px var(--pad);}.listhd{padding:26px 0 18px!important;}.listhd .h1{font-size:22px!important;}.listhd .lede{font-size:13px;}.list-controls{position:static;width:100%;margin:18px 0 0;}.sort,.fbar{width:50%;height:48px;}.filters{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;z-index:90;width:100%!important;max-height:84vh!important;display:block;padding:22px!important;margin:0!important;overflow:auto!important;transform:translateY(100%)!important;border-top:1px solid #aaa!important;}.filters.is-open{transform:none!important;}.filters>div:first-child{display:flex!important;}.fgroup{border-bottom:1px solid #ddd!important;padding:0!important;}.filter-trigger{border:0;height:54px;padding:0;font-weight:700;}.fgroup>:not(.filter-trigger){display:none!important;}.fgroup.is-open>:not(.filter-trigger){display:flex!important;position:static!important;width:100%!important;max-height:none!important;padding:0 0 16px!important;border:0!important;box-shadow:none!important;}.fgroup.is-open>.price-fields{display:grid!important;}.filters .btn--line{margin-top:18px;}
   .product-main .pdp{grid-template-columns:1fr!important;}.pinfo{position:static!important;padding:16px 0 80px!important;}.gal{grid-template-columns:1fr!important;}.thumbs{order:2;flex-direction:row;overflow:auto;}.buybar{z-index:75;}
   .promo-card{min-height:380px;}.ft__cols{grid-template-columns:1fr 1fr!important;}.ft__brand{grid-column:1/-1;}
+  .brand-head{padding:46px 0 42px;}.brand-head h1{font-size:45px;}.brand-search{height:50px;margin-top:24px;}.brand-section{padding-top:44px;padding-bottom:48px;}.brand-section--directory{padding-top:2px;}.brand-section__head{align-items:flex-start;flex-direction:column;gap:10px;}.brand-featured{grid-template-columns:1fr;gap:10px;}.brand-directory{columns:1;}.brand-feature{display:grid;grid-template-columns:116px 1fr;}.brand-feature__art{aspect-ratio:1;}.brand-feature__copy{justify-content:center;}.brand-alphabet{gap:6px;}.brand-alphabet a{width:44px;height:44px;}.brand-group{padding:18px 16px 12px;}
 }
 
 /* Best sellers — intentionally distinct from the clean Trending Now cards.

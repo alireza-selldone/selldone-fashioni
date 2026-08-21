@@ -4,6 +4,11 @@
 
 import { loadCatalog, money, catOf } from "./shop-data.js";
 import { cardHTML, esc } from "./app.js";
+import { compareVariantSizes } from "./variant-options.js";
+
+if (new URLSearchParams(location.search).get("view") === "brands") {
+  location.replace("brands.html");
+}
 
 const lg = Math.log10;
 
@@ -49,6 +54,10 @@ function initShop(cat) {
   const presetCat = params.get("cat");
   const presetBrand = params.get("brand");
   const presetAudience = params.get("audience");
+  const contextualProducts = cat.products.filter((product) =>
+    (!presetAudience || product.audiences?.includes(presetAudience)) &&
+    (!presetCat || product.cat === presetCat) &&
+    (!presetBrand || product.brand === presetBrand));
 
   /* ---- Filter 1: collection ---- */
   const catBox = document.getElementById("catfilters");
@@ -58,14 +67,16 @@ function initShop(cat) {
       ${esc(c.name)}<span class="cap">${c.count}</span>
     </label>`).join("");
 
-  /* Sizes are collected from live variants, not a static fashion taxonomy. */
+  /* Size facets belong to the current audience/category/brand context. Building
+     them from the whole catalog made Girls inherit adult materials and internal
+     legacy tokens from unrelated products. */
   const sizeBox = document.getElementById("sizefilters");
-  const sizes = [...new Set(cat.products.flatMap((p) => p.sizes || []))]
-    .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }));
+  const sizes = [...new Set(contextualProducts.flatMap((p) => p.sizes || []))]
+    .sort(compareVariantSizes);
   sizeBox.innerHTML = sizes.map((size) => `
     <label class="check">
       <input type="checkbox" value="${esc(size)}">${esc(size)}
-      <span class="cap">${cat.products.filter((p) => p.sizes?.includes(size)).length}</span>
+      <span class="cap">${contextualProducts.filter((p) => p.sizes?.includes(size)).length}</span>
     </label>`).join("");
 
   /* ---- Filter 4: brand ---- */
@@ -149,11 +160,12 @@ function initShop(cat) {
 
     const one = picked.length === 1 ? catOf(cat, picked[0]) : null;
     const audience = cat.audiences?.find((item) => item.slug === presetAudience);
-    const pageName = one?.name || audience?.title || "All products";
+    const pageName = one?.name || audience?.title || presetBrand || "All products";
     title.textContent = pageName;
     if (crumbTitle) crumbTitle.textContent = pageName === "All products" ? "Products" : pageName;
     if (intro) intro.textContent = one ? one.blurb
       : audience ? `${list.length} styles selected for ${audience.title.toLowerCase()}.`
+      : presetBrand ? `${list.length} products by ${presetBrand}.`
       : `${cat.products.length} products across ${cat.cats.length} categories.`;
     count.textContent = `${list.length} ${list.length === 1 ? "product" : "products"}`;
     if (shown > list.length) shown = Math.max(PAGE, Math.ceil(list.length / PAGE) * PAGE);

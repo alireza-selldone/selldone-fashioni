@@ -19,7 +19,8 @@ const PAGES=[["home","/","#catgrid .cat"],["shop","/shop.html","#pgrid .pcard"],
              ["product","/product.html?id=710152","#pdp h1"],["checkout","/checkout.html","#sumrows .sum__row"],
              ["about","/about-us",".prose h2"],["terms","/terms",".prose h2"],
              ["privacy","/privacy",".prose h2"],["contact","/contact-us",".prose h2"],
-             ["blog","/blog",".post"],["article","/article.html?id=31667","[data-article-body] p"]];
+             ["blog","/blog",".post"],["article","/article.html?id=31667","[data-article-body] p"],
+             ["brands","/brands.html",".brand-directory a"]];
 const WIDTHS=[1440,1024,768,390];
 const BAG=JSON.stringify([{id:710152,qty:1,variantId:1401322},{id:710265,qty:1}]);
 const b=await chromium.launch();
