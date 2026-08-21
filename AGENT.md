@@ -9,6 +9,7 @@ This project is a fully static Selldone storefront plus browser-side dashboard. 
 - OAuth callback source lives in `callback/` and is served at `/callback/`.
 - Shared browser modules live in `shared/`.
 - Static production output is generated into `dist/` by `scripts/build-static.mjs`.
+- Local product research under `storefront/assets/products/variants/references/` is never public build input; preserve it in the workspace but keep it out of `dist`, packages, Git, and deployment.
 - `scripts/dev-static.mjs` is only a local development file server. Do not add production Node server behavior.
 - Cloudflare Workers Static Assets must deploy `dist/` only through `wrangler deploy`. Do not deploy `.env`, logs, temp files, auth files, local browser profiles, or `dist/` source artifacts to git.
 

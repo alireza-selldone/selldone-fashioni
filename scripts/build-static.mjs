@@ -9,6 +9,9 @@ const DIST = join(ROOT, "dist");
    Phase 4 review record and _audit.js is the harness behind it — but neither
    belongs in a deployed build. */
 const DEV_ONLY = /[\\/]_(review\.html|audit\.js|tokens\.html)$/;
+/* Locally collected product-reference images support visual QA only. They may
+   be untracked user research and must never be copied into the public Worker. */
+const LOCAL_REFERENCE_ASSETS = /[\\/]assets[\\/]products[\\/]variants[\\/]references(?:[\\/]|$)/;
 
 
 await rm(DIST, { recursive: true, force: true });
@@ -33,6 +36,7 @@ async function copyDirectory(from, to) {
     filter: (source) =>
       !source.endsWith(".map") &&
       !source.includes(`${from}\\.auth`) &&
+      !LOCAL_REFERENCE_ASSETS.test(source) &&
       !DEV_ONLY.test(source),
   });
 }
