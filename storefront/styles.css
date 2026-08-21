@@ -1530,7 +1530,7 @@ h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-s
 .campaign-hero{min-height:clamp(460px,48vw,620px);height:auto;background:var(--theme-hero);color:#fff;display:flex;position:relative;overflow:hidden;align-items:center;}
 .campaign-hero__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
 .campaign-hero__inner{position:relative;z-index:2;width:100%;display:flex;align-items:center;min-height:inherit;}
-.campaign-hero__copy{width:min(520px,47vw);padding:42px;border-radius:16px;background:var(--theme-hero-overlay);box-shadow:0 24px 60px rgba(0,0,0,.24);}
+.campaign-hero__copy{width:min(520px,47vw);padding:42px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:var(--theme-hero-overlay);box-shadow:0 24px 60px rgba(0,0,0,.34);backdrop-filter:blur(10px);}
 .campaign-hero__copy .eyebrow{color:var(--theme-light);margin-bottom:14px;}
 .campaign-hero__copy h1{font-size:clamp(36px,3vw,42px);line-height:1.04;margin:0 0 22px;}
 .campaign-hero__copy h1 span{display:block;white-space:nowrap;}
@@ -1748,7 +1748,7 @@ h1,h2,h3,.h1,.h2,.h3,.h-hero{font-family:var(--display);font-weight:700;letter-s
   .fashioni-navrow{display:none;}
   .campaign-hero{min-height:520px;display:block;padding-top:250px;}
   .campaign-hero__image{object-position:center top;height:250px;}
-  .campaign-hero__copy{width:100%;padding:34px 0 68px;background:none;box-shadow:none;}
+  .campaign-hero__copy{width:100%;padding:34px 0 68px;border:0;background:none;box-shadow:none;backdrop-filter:none;}
   .campaign-hero__inner{position:relative;min-height:270px;align-items:flex-end;background:var(--theme-hero);}
   .benefit-bar__grid{grid-template-columns:1fr 1fr;}.benefit-bar__grid>div:nth-child(2){border-right:0;}.benefit-bar__grid>div:nth-child(-n+2){border-bottom:1px solid var(--rule);}
   .fashioni-cats{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
@@ -1886,7 +1886,7 @@ body{background:var(--dial);color:var(--graphite);}
 
 /* Full-width, image-led homepage sections with symmetric edges. */
 .fashioni-page main{width:100%;}.campaign-hero{border-radius:0!important;}
-.campaign-hero__image{object-fit:contain!important;padding:5vw 8vw!important;background:#e9e7e2!important;}
+.campaign-hero__image{object-fit:cover!important;object-position:center!important;padding:0!important;background:#111827!important;}
 .promo-card,.guide-card,.fashioni-cat{border-radius:0!important;}.promo-grid,.guide-grid{gap:2px;}
 .promo-card{min-height:480px;}.promo-card::after{background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.82));}
 .products-section{background:#fff;}

@@ -54,8 +54,18 @@ function initShop(cat) {
   const presetCat = params.get("cat");
   const presetBrand = params.get("brand");
   const presetAudience = params.get("audience");
+  const matchesPresetAudience = (product) => {
+    if (!presetAudience) return true;
+    if (presetAudience === "kids") {
+      return ["girls", "boys"].some((audience) => product.audiences?.includes(audience));
+    }
+    if (presetAudience === "adults") {
+      return ["women", "men"].some((audience) => product.audiences?.includes(audience));
+    }
+    return product.audiences?.includes(presetAudience);
+  };
   const contextualProducts = cat.products.filter((product) =>
-    (!presetAudience || product.audiences?.includes(presetAudience)) &&
+    matchesPresetAudience(product) &&
     (!presetCat || product.cat === presetCat) &&
     (!presetBrand || product.brand === presetBrand));
 
@@ -147,7 +157,7 @@ function initShop(cat) {
 
     const list = cat.products.filter((p) =>
       (!picked.length || picked.includes(p.cat)) &&
-      (!presetAudience || p.audiences?.includes(presetAudience)) &&
+      matchesPresetAudience(p) &&
       (!pickedSizes.length || pickedSizes.some((size) => p.sizes?.includes(size))) &&
       (!brands.length || brands.includes(p.brand)) &&
       (atFloor || p.price >= a) && (atCeil || p.price <= b) &&
@@ -160,11 +170,14 @@ function initShop(cat) {
 
     const one = picked.length === 1 ? catOf(cat, picked[0]) : null;
     const audience = cat.audiences?.find((item) => item.slug === presetAudience);
-    const pageName = one?.name || audience?.title || presetBrand || "All products";
+    const audienceTitle = presetAudience === "kids" ? "Kids"
+      : presetAudience === "adults" ? "Women & Men"
+      : audience?.title;
+    const pageName = one?.name || audienceTitle || presetBrand || "All products";
     title.textContent = pageName;
     if (crumbTitle) crumbTitle.textContent = pageName === "All products" ? "Products" : pageName;
     if (intro) intro.textContent = one ? one.blurb
-      : audience ? `${list.length} styles selected for ${audience.title.toLowerCase()}.`
+      : audienceTitle ? `${list.length} styles selected for ${audienceTitle.toLowerCase()}.`
       : presetBrand ? `${list.length} products by ${presetBrand}.`
       : `${cat.products.length} products across ${cat.cats.length} categories.`;
     count.textContent = `${list.length} ${list.length === 1 ? "product" : "products"}`;

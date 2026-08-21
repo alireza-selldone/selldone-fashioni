@@ -37,8 +37,29 @@ for (const [width, height] of [[1440, 900], [1024, 900], [820, 1000], [390, 844]
 
   console.log(`\n  ${width}px`);
   state.overflow === 0 ? pass("no horizontal overflow") : fail(`${state.overflow}px horizontal overflow`);
-  state.fit === "contain" ? pass("campaign artwork is fully contained without cropping") : fail(`unexpected object-fit: ${state.fit}`);
-  state.image.naturalWidth > 1000 && state.image.naturalHeight > 1000 ? pass("high-resolution campaign artwork loaded") : fail("campaign artwork resolution is too small");
+  state.fit === "cover" ? pass("campaign photography fills the hero") : fail(`unexpected object-fit: ${state.fit}`);
+  state.image.naturalWidth * state.image.naturalHeight > 1_300_000 && Math.min(state.image.naturalWidth, state.image.naturalHeight) >= 850
+    ? pass("high-resolution campaign artwork loaded")
+    : fail("campaign artwork resolution is too small");
+  const slideStates = [];
+  const dots = page.locator("[data-campaign-dots] button");
+  for (let index = 0; index < await dots.count(); index++) {
+    await dots.nth(index).click();
+    await page.waitForFunction(() => {
+      const image = document.querySelector("[data-hero-img]");
+      return image?.complete && image.naturalWidth * image.naturalHeight > 1_300_000 &&
+        Math.min(image.naturalWidth, image.naturalHeight) >= 850;
+    });
+    slideStates.push(await page.evaluate(() => ({
+      src: document.querySelector("[data-hero-img]")?.getAttribute("src"),
+      current: [...document.querySelectorAll("[data-campaign-dots] button")]
+        .findIndex((button) => button.getAttribute("aria-current") === "true"),
+    })));
+  }
+  const uniqueSlides = new Set(slideStates.map(({ src }) => src)).size;
+  uniqueSlides === 3 && slideStates.every(({ current }, index) => current === index)
+    ? pass("all three campaign slides load and select correctly")
+    : fail("campaign slides did not load or select correctly");
   const copyVisible = state.heading.top >= state.hero.top && state.heading.bottom <= state.hero.bottom && state.heading.text.length > 10;
   copyVisible ? pass("campaign heading is fully visible") : fail("campaign heading is clipped or empty");
   if (width <= 820) {

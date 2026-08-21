@@ -41,6 +41,7 @@ Fashioni initially used Uniqlo as the closest reference because the live catalog
 - Category media occupies 69% of each card and uses `object-fit: contain` without cropping.
 - Five persistent color themes remain available as a preference, but all keep the same fashion layout and accessible contrast.
 - One shared header and footer is generated across home, shop, product, checkout, account, information, blog, and article routes.
+- The homepage campaign uses three user-approved editorial scenes derived from real catalogue products: evening sunglasses, coordinated womenswear/menswear, and children at play. Subjects remain on the right with copy-safe space on the left; the first-paint HTML and hydrated slider use the same asset and copy.
 
 ## Product options and media
 

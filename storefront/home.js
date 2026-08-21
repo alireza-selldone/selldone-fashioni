@@ -19,34 +19,34 @@ const CATEGORY_ART = {
 
 const CAMPAIGNS = [
   {
-    image: "assets/categories/activewear.png",
-    alt: "Coordinated Fashioni activewear capsule",
-    kicker: "Active essentials",
-    title: "Move in your own rhythm.",
-    titleLines: ["Move in your", "own rhythm."],
-    lede: "Explore performance-minded layers, coordinated colors, and everyday comfort.",
-    label: "Shop activewear",
-    href: "shop.html?cat=activewear",
-  },
-  {
-    image: "assets/categories/dresses-one-pieces.png",
-    alt: "Fashioni dresses and one-piece styles",
-    kicker: "One-step dressing",
-    title: "Easy shapes, fresh color.",
-    titleLines: ["Easy shapes,", "fresh color."],
-    lede: "Discover dresses and one-pieces for everyday plans and dressed-up moments.",
-    label: "Shop dresses",
-    href: "shop.html?cat=dresses-one-pieces",
-  },
-  {
-    image: "assets/categories/sunglasses.png",
-    alt: "Fashioni sunglasses in varied frame shapes",
-    kicker: "Sun-ready style",
-    title: "Frame the look your way.",
-    titleLines: ["Frame the look", "your way."],
-    lede: "Browse classic and playful sunglasses for adults and kids.",
+    image: "assets/campaigns/sunglasses-after-dark.webp",
+    alt: "Woman wearing Fashioni cat-eye sunglasses in an evening city setting",
+    kicker: "After-dark details",
+    title: "Confidence in every frame.",
+    titleLines: ["Confidence in", "every frame."],
+    lede: "Discover expressive sunglasses that bring a polished finish to day and evening looks.",
     label: "Shop sunglasses",
     href: "shop.html?cat=sunglasses",
+  },
+  {
+    image: "assets/campaigns/style-together.webp",
+    alt: "Couple wearing coordinated Fashioni womenswear and menswear",
+    kicker: "Style, together",
+    title: "Two wardrobes. One point of view.",
+    titleLines: ["Two wardrobes.", "One point of view."],
+    lede: "Explore polished everyday pieces for women and men, designed to work beautifully together.",
+    label: "Shop women & men",
+    href: "shop.html?audience=adults",
+  },
+  {
+    image: "assets/campaigns/made-for-play.webp",
+    alt: "Children playing in Fashioni girls and boys outfits",
+    kicker: "Made for play",
+    title: "Easy style. Big adventures.",
+    titleLines: ["Easy style.", "Big adventures."],
+    lede: "Find comfortable girls' and boys' styles made for movement, color, and everyday fun.",
+    label: "Shop kids",
+    href: "shop.html?audience=kids",
   },
 ];
 
@@ -67,7 +67,7 @@ function initCampaigns() {
     image.src = item.image;
     image.alt = item.alt;
     kicker.textContent = item.kicker;
-    title.innerHTML = item.titleLines.map((line) => `<span>${esc(line)}</span>`).join("");
+    title.innerHTML = item.titleLines.map((line) => `<span>${esc(line)}</span>`).join(" ");
     lede.textContent = item.lede;
     link.textContent = item.label;
     link.href = item.href;
