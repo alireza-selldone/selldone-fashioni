@@ -1886,7 +1886,7 @@ body{background:var(--dial);color:var(--graphite);}
 
 /* Full-width, image-led homepage sections with symmetric edges. */
 .fashioni-page main{width:100%;}.campaign-hero{border-radius:0!important;}
-.campaign-hero__image{object-fit:cover!important;object-position:center!important;padding:0!important;background:#111827!important;}
+.campaign-hero__image{object-fit:cover!important;object-position:center top!important;padding:0!important;background:#111827!important;}
 .promo-card,.guide-card,.fashioni-cat{border-radius:0!important;}.promo-grid,.guide-grid{gap:2px;}
 .promo-card{min-height:480px;}.promo-card::after{background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.82));}
 .products-section{background:#fff;}

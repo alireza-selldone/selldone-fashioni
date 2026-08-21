@@ -32,12 +32,14 @@ for (const [width, height] of [[1440, 900], [1024, 900], [820, 1000], [390, 844]
       copy: { top: cr.top, bottom: cr.bottom, width: cr.width },
       heading: { top: tr.top, bottom: tr.bottom, text: heading.textContent.trim() },
       fit: getComputedStyle(image).objectFit,
+      position: getComputedStyle(image).objectPosition,
     };
   });
 
   console.log(`\n  ${width}px`);
   state.overflow === 0 ? pass("no horizontal overflow") : fail(`${state.overflow}px horizontal overflow`);
   state.fit === "cover" ? pass("campaign photography fills the hero") : fail(`unexpected object-fit: ${state.fit}`);
+  state.position === "50% 0%" ? pass("campaign photography preserves heads and crops from the bottom") : fail(`unexpected object-position: ${state.position}`);
   state.image.naturalWidth * state.image.naturalHeight > 1_300_000 && Math.min(state.image.naturalWidth, state.image.naturalHeight) >= 850
     ? pass("high-resolution campaign artwork loaded")
     : fail("campaign artwork resolution is too small");
